@@ -171,6 +171,155 @@ body {
 .dropdown-item:hover { background: var(--cream); }
 .dropdown-item.danger { color: #DC2626; }
 
+/* Saved trails panel */
+.saved-panel-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(28, 16, 8, 0.42);
+}
+
+.saved-panel-backdrop[hidden] { display: none; }
+
+.saved-panel {
+    width: min(620px, 100%);
+    max-height: min(720px, calc(100vh - 48px));
+    overflow-y: auto;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+}
+
+.saved-panel-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 24px 26px 18px;
+    border-bottom: 1px solid var(--border);
+}
+
+.saved-panel-header h2 {
+    font-family: var(--font-display);
+    font-size: 30px;
+    color: var(--crimson);
+    line-height: 1.1;
+}
+
+.saved-panel-header p {
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.saved-close-btn {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    border: 1px solid var(--cream-dark);
+    border-radius: 50%;
+    background: var(--cream);
+    color: var(--text);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.saved-panel-body {
+    display: grid;
+    gap: 24px;
+    padding: 24px 26px 28px;
+}
+
+.saved-section-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.saved-section-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.saved-add-btn {
+    font-family: var(--font-body);
+    border: none;
+    border-radius: 50px;
+    background: var(--crimson);
+    color: var(--cream);
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.saved-list {
+    display: grid;
+    gap: 10px;
+}
+
+.saved-empty {
+    border: 1px dashed var(--cream-dark);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.5;
+    background: var(--cream);
+}
+
+.saved-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 14px;
+    align-items: center;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--cream);
+}
+
+.saved-row-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.saved-row-meta {
+    margin-top: 3px;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+.saved-delete-btn {
+    font-family: var(--font-body);
+    border: 1px solid rgba(220, 38, 38, 0.28);
+    border-radius: 50px;
+    background: var(--white);
+    color: #B91C1C;
+    padding: 7px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.saved-delete-btn:hover {
+    background: #FEE2E2;
+}
+
 /* ─── HERO ─────────────────────────────────── */
 .hero {
     min-height: 100vh;
@@ -745,6 +894,125 @@ body {
     margin-bottom: 24px;
 }
 
+/* ─── ADMIN DASHBOARD ───────────────────────── */
+.admin-section {
+    display: none;
+    background: var(--cream);
+    padding: 80px 48px;
+}
+
+.admin-section.visible { display: block; }
+
+.admin-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.admin-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 28px;
+}
+
+.admin-title {
+    font-family: var(--font-display);
+    font-size: 44px;
+    line-height: 1.1;
+    color: var(--crimson);
+}
+
+.admin-desc {
+    margin-top: 10px;
+    max-width: 600px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-muted);
+}
+
+.admin-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.admin-toolbar input {
+    width: min(360px, 100%);
+    padding: 11px 14px;
+    border: 1.5px solid var(--cream-dark);
+    border-radius: var(--radius-sm);
+    background: var(--white);
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--text);
+}
+
+.admin-list {
+    display: grid;
+    gap: 12px;
+}
+
+.admin-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 18px;
+    align-items: center;
+    padding: 18px 20px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.admin-row-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.admin-row-meta {
+    margin-top: 4px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+.admin-delete-btn,
+.admin-refresh-btn {
+    font-family: var(--font-body);
+    border-radius: 50px;
+    padding: 9px 15px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.admin-delete-btn {
+    border: 1px solid rgba(220, 38, 38, 0.28);
+    background: #FEE2E2;
+    color: #B91C1C;
+}
+
+.admin-refresh-btn {
+    border: none;
+    background: var(--crimson);
+    color: var(--cream);
+}
+
+.admin-empty {
+    padding: 28px;
+    border: 1px dashed var(--cream-dark);
+    border-radius: var(--radius-md);
+    background: var(--white);
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.admin-only { display: none; }
+.admin-only.visible { display: flex; }
+
 /* ─── FOOTER ─────────────────────────────────── */
 footer {
     background: var(--text);
@@ -803,6 +1071,9 @@ footer {
     }
 
     .add-title { font-size: 36px; }
+    .admin-section { padding: 56px 24px; }
+    .admin-header { align-items: flex-start; flex-direction: column; }
+    .admin-title { font-size: 36px; }
     footer { flex-direction: column; gap: 12px; text-align: center; padding: 32px 24px; }
 
     #food-container { grid-template-columns: 1fr 1fr; }
@@ -812,6 +1083,16 @@ footer {
     #food-container { grid-template-columns: 1fr; }
     .hero-stats { gap: 24px; }
     .hero-title { font-size: 40px; }
+    .saved-panel-backdrop { align-items: flex-end; padding: 12px; }
+    .saved-panel { max-height: calc(100vh - 24px); }
+    .saved-panel-header,
+    .saved-panel-body { padding-left: 18px; padding-right: 18px; }
+    .saved-section-top { align-items: flex-start; flex-direction: column; }
+    .saved-row { grid-template-columns: 1fr; }
+    .saved-delete-btn { width: 100%; }
+    .admin-toolbar { align-items: stretch; flex-direction: column; }
+    .admin-row { grid-template-columns: 1fr; }
+    .admin-delete-btn { width: 100%; }
 }
     </style>
 </head>
@@ -847,6 +1128,10 @@ footer {
     🗺 Saved Trails
 </div>
 
+<div class="dropdown-item admin-only" id="admin-dashboard-btn">
+    🛡 Admin Dashboard
+</div>
+
 <div class="dropdown-item danger" id="sign-out-btn">
     ↩ Sign Out
 </div>
@@ -854,6 +1139,34 @@ footer {
         </div>
     </div>
 </nav>
+
+<div class="saved-panel-backdrop" id="saved-panel" hidden>
+    <div class="saved-panel" role="dialog" aria-modal="true" aria-labelledby="saved-panel-title">
+        <div class="saved-panel-header">
+            <div>
+                <h2 id="saved-panel-title">Saved Trails</h2>
+                <p>Review saved destination trails and the culinary gems you mapped from this browser.</p>
+            </div>
+            <button type="button" class="saved-close-btn" id="saved-panel-close" aria-label="Close saved trails">×</button>
+        </div>
+        <div class="saved-panel-body">
+            <section>
+                <div class="saved-section-top">
+                    <div class="saved-section-title">Food Trails</div>
+                    <button type="button" class="saved-add-btn" id="save-current-trail-btn">Save Current Trail</button>
+                </div>
+                <div class="saved-list" id="saved-trails-list"></div>
+            </section>
+
+            <section>
+                <div class="saved-section-top">
+                    <div class="saved-section-title">Mapped Culinary Gems</div>
+                </div>
+                <div class="saved-list" id="saved-gems-list"></div>
+            </section>
+        </div>
+    </div>
+</div>
 
 
 <!-- ═══════════════════════════════════════
@@ -896,10 +1209,10 @@ footer {
                 </div>
                 <div class="form-group">
                     <label>Preferred Region</label>
-                    <select>
-                        <option>Malabar (Kozhikode / Wayanad)</option>
-                        <option>Central Kerala (Kochi / Alappuzha)</option>
-                        <option>Travancore (TVM / Varkala)</option>
+                    <select id="signup-region">
+                        <option value="malabar">Malabar (Kozhikode / Wayanad)</option>
+                        <option value="central">Central Kerala (Kochi / Alappuzha)</option>
+                        <option value="travancore">Travancore (TVM / Varkala)</option>
                     </select>
                 </div>
                 <button type="submit" class="btn-primary">Unlock Map System →</button>
@@ -1044,6 +1357,29 @@ footer {
 
 
 <!-- ═══════════════════════════════════════
+     ADMIN DASHBOARD
+═══════════════════════════════════════ -->
+<section class="admin-section" id="admin">
+    <div class="admin-inner">
+        <div class="admin-header">
+            <div>
+                <div class="section-label">Admin</div>
+                <h2 class="admin-title">Review Added Culinary Gems</h2>
+                <p class="admin-desc">Remove fake or incorrect gems added to the shared map. Built-in heritage spots are protected here; this dashboard focuses on community-added places.</p>
+            </div>
+            <button type="button" class="admin-refresh-btn" id="admin-refresh-btn">Refresh List</button>
+        </div>
+
+        <div class="admin-toolbar">
+            <input type="text" id="admin-search" placeholder="Search added gems...">
+        </div>
+
+        <div class="admin-list" id="admin-gem-list"></div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
      FOOTER
 ═══════════════════════════════════════ -->
 <footer>
@@ -1134,6 +1470,15 @@ const state = {
   isTrailActive: false
 };
 
+const SAVED_TRAILS_KEY = 'saved_trails';
+const USER_SPOT_IDS_KEY = 'keralamX_user_spot_ids';
+const OWNER_KEY_STORAGE = 'keralamX_owner_key';
+const ADMIN_PROFILE = {
+  name: 'niya sreejith',
+  email: 'niya12@gmail.com',
+  region: 'malabar'
+};
+
 /* utils.js */
 function getCategoryColor(type) {
   const colors = {
@@ -1196,15 +1541,77 @@ async function createDatabaseSpot(payload) {
   return data.spot;
 }
 
+async function deleteDatabaseSpot(spotId, options = {}) {
+  const params = new URLSearchParams({
+    id: spotId
+  });
+
+  if (options.admin) {
+    const admin = getSavedUserProfile();
+    params.set('adminName', admin?.name || '');
+    params.set('adminEmail', admin?.email || '');
+    params.set('adminRegion', admin?.region || '');
+  } else {
+    params.set('ownerKey', getOwnerKey());
+  }
+
+  const response = await fetch('/api/spots?' + params.toString(), {
+    method: 'DELETE'
+  });
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || 'Unable to delete this food spot.');
+  }
+
+  return data.deleted;
+}
+
 function loadLocalCustomSpots() {
   const saved = localStorage.getItem('keralamX_v2_custom');
   return saved ? JSON.parse(saved) : [];
+}
+
+function getOwnerKey() {
+  let ownerKey = localStorage.getItem(OWNER_KEY_STORAGE);
+
+  if (!ownerKey) {
+    ownerKey = window.crypto && window.crypto.randomUUID
+      ? window.crypto.randomUUID()
+      : 'owner-' + Date.now() + '-' + Math.random().toString(16).slice(2);
+    localStorage.setItem(OWNER_KEY_STORAGE, ownerKey);
+  }
+
+  return ownerKey;
 }
 
 function saveLocalCustomSpot(spot) {
   const localSpots = loadLocalCustomSpots();
   localSpots.push(spot);
   localStorage.setItem('keralamX_v2_custom', JSON.stringify(localSpots));
+}
+
+function deleteLocalCustomSpot(spotId) {
+  const localSpots = loadLocalCustomSpots().filter(spot => spot.id !== spotId);
+  localStorage.setItem('keralamX_v2_custom', JSON.stringify(localSpots));
+}
+
+function loadUserSpotIds() {
+  const saved = localStorage.getItem(USER_SPOT_IDS_KEY);
+  return saved ? JSON.parse(saved) : [];
+}
+
+function saveUserSpotId(spotId) {
+  const ids = loadUserSpotIds();
+  if (!ids.includes(spotId)) {
+    ids.push(spotId);
+    localStorage.setItem(USER_SPOT_IDS_KEY, JSON.stringify(ids));
+  }
+}
+
+function removeUserSpotId(spotId) {
+  const ids = loadUserSpotIds().filter(id => id !== spotId);
+  localStorage.setItem(USER_SPOT_IDS_KEY, JSON.stringify(ids));
 }
 
 /* map.js */
@@ -1381,11 +1788,18 @@ function handleSignup(e) {
   e.preventDefault();
   const name = document.getElementById('signup-name').value.trim();
   const email = document.getElementById('signup-email').value.trim();
+  const region = document.getElementById('signup-region').value;
   if (!name || !email) return;
 
-  renderUserProfile(name, email);
-  saveUserProfile(name, email);
-  document.getElementById('explore').scrollIntoView({ behavior: 'smooth' });
+  const user = { name, email, region };
+  renderUserProfile(name, email, region);
+  saveUserProfile(name, email, region);
+
+  if (isAdminProfile(user)) {
+    showAdminDashboard();
+  } else {
+    document.getElementById('explore').scrollIntoView({ behavior: 'smooth' });
+  }
 }
 
 function toggleAvatarDropdown() {
@@ -1400,16 +1814,36 @@ function initAvatarDropdownDismissal() {
   });
 }
 
-function saveUserProfile(name, email) {
-  localStorage.setItem('keralamX_user', JSON.stringify({ name, email }));
+function getSavedUserProfile() {
+  const savedUser = localStorage.getItem('keralamX_user');
+  return savedUser ? JSON.parse(savedUser) : null;
+}
+
+function saveUserProfile(name, email, region = 'malabar') {
+  localStorage.setItem('keralamX_user', JSON.stringify({ name, email, region }));
+}
+
+function normalizeProfileValue(value) {
+  return String(value || '').trim().toLowerCase();
+}
+
+function isAdminProfile(user) {
+  return (
+    normalizeProfileValue(user?.name) === ADMIN_PROFILE.name &&
+    normalizeProfileValue(user?.email) === ADMIN_PROFILE.email &&
+    normalizeProfileValue(user?.region || 'malabar') === ADMIN_PROFILE.region
+  );
 }
 
 function loadUserProfile() {
-  const savedUser = localStorage.getItem('keralamX_user');
-  if (!savedUser) return;
+  const user = getSavedUserProfile();
+  if (!user) return;
 
-  const user = JSON.parse(savedUser);
-  renderUserProfile(user.name, user.email);
+  renderUserProfile(user.name, user.email, user.region);
+
+  if (isAdminProfile(user) && window.location.hash === '#admin') {
+    showAdminDashboard();
+  }
 }
 
 function openManageAccount() {
@@ -1429,23 +1863,118 @@ function openManageAccount() {
   alert('✅ Profile updated successfully!');
 }
 
-function openSavedTrails() {
+function loadSavedTrails() {
+  const saved = localStorage.getItem(SAVED_TRAILS_KEY);
+  return saved ? JSON.parse(saved) : [];
+}
+
+function saveSavedTrails(trails) {
+  localStorage.setItem(SAVED_TRAILS_KEY, JSON.stringify(trails));
+}
+
+function openSavedTrails(event) {
+  if (event) event.stopPropagation();
+  document.getElementById('avatar-dropdown').classList.remove('open');
+  renderSavedTrailsPanel();
+  document.getElementById('saved-panel').hidden = false;
+}
+
+function closeSavedTrails() {
+  document.getElementById('saved-panel').hidden = true;
+}
+
+function saveCurrentTrail() {
   const currentPlace = document.getElementById('place-selector').value;
-  const trails = JSON.parse(localStorage.getItem('saved_trails')) || [];
+  const trails = loadSavedTrails();
 
   trails.push({
+    id: 'trail-' + Date.now(),
     place: currentPlace,
     time: new Date().toLocaleString()
   });
 
-  localStorage.setItem('saved_trails', JSON.stringify(trails));
+  saveSavedTrails(trails);
+  renderSavedTrailsPanel();
+}
 
-  let message = '🗺 Your Saved Trails:\n\n';
-  trails.forEach((trail, index) => {
-    message += `${index + 1}. ${trail.place.toUpperCase()} — ${trail.time}\n`;
-  });
+function deleteSavedTrail(index) {
+  const trails = loadSavedTrails();
+  trails.splice(index, 1);
+  saveSavedTrails(trails);
+  renderSavedTrailsPanel();
+}
 
-  alert(message);
+function getUserMappedGems() {
+  const ids = loadUserSpotIds();
+  return state.restaurantDatabase.filter(spot => ids.includes(spot.id));
+}
+
+function renderSavedTrailsPanel() {
+  const trailList = document.getElementById('saved-trails-list');
+  const gemList = document.getElementById('saved-gems-list');
+  const trails = loadSavedTrails();
+  const gems = getUserMappedGems();
+
+  if (trails.length === 0) {
+    trailList.innerHTML = '<div class="saved-empty">No trails saved yet. Save the currently selected destination to keep it here.</div>';
+  } else {
+    trailList.innerHTML = trails.map((trail, index) => {
+      const placeName = destinations[trail.place]?.name || trail.place;
+      const time = trail.time || 'Saved earlier';
+      return `
+        <div class="saved-row">
+          <div>
+            <div class="saved-row-title">${escapeHtml(placeName)} Trail</div>
+            <div class="saved-row-meta">${escapeHtml(time)}</div>
+          </div>
+          <button type="button" class="saved-delete-btn" data-delete-trail="${index}">Delete</button>
+        </div>
+      `;
+    }).join('');
+  }
+
+  if (gems.length === 0) {
+    gemList.innerHTML = '<div class="saved-empty">Your mapped culinary gems will appear here after you register a food spot.</div>';
+  } else {
+    gemList.innerHTML = gems.map(gem => `
+      <div class="saved-row">
+        <div>
+          <div class="saved-row-title">${escapeHtml(gem.name)}</div>
+          <div class="saved-row-meta">${escapeHtml(destinations[gem.placeKey]?.name || gem.placeKey)} · ${escapeHtml(gem.dish)}</div>
+        </div>
+        <button type="button" class="saved-delete-btn" data-delete-gem="${escapeHtml(gem.id)}">Delete</button>
+      </div>
+    `).join('');
+  }
+}
+
+async function deleteMappedGem(spotId) {
+  const spot = state.restaurantDatabase.find(item => item.id === spotId);
+  if (!spot) return;
+
+  const ok = confirm(`Delete "${spot.name}" from your mapped culinary gems?`);
+  if (!ok) return;
+
+  try {
+    if (spotId.startsWith('local-')) {
+      deleteLocalCustomSpot(spotId);
+    } else if (spotId.startsWith('db-')) {
+      await deleteDatabaseSpot(spotId);
+    }
+
+    removeUserSpotId(spotId);
+    state.restaurantDatabase = state.restaurantDatabase.filter(item => item.id !== spotId);
+
+    if (state.activeMarkers[spotId]) {
+      state.mapInstance.removeLayer(state.activeMarkers[spotId]);
+      delete state.activeMarkers[spotId];
+    }
+
+    updateUI(document.getElementById('place-selector').value);
+    renderSavedTrailsPanel();
+  } catch (error) {
+    alert(error.message);
+  }
 }
 
 function signOutUser() {
@@ -1457,7 +1986,7 @@ function signOutUser() {
   location.reload();
 }
 
-function renderUserProfile(name, email) {
+function renderUserProfile(name, email, region = 'malabar') {
   const parts = name.split(' ').filter(part => part.length > 0);
   const initials = (
     parts.length > 1
@@ -1470,10 +1999,96 @@ function renderUserProfile(name, email) {
   document.getElementById('drop-name').textContent = name;
   document.getElementById('drop-email').textContent = email;
   document.getElementById('nav-avatar').classList.add('visible');
+  document.getElementById('admin-dashboard-btn').classList.toggle('visible', isAdminProfile({ name, email, region }));
 
   document.querySelectorAll('.nav-cta').forEach(element => {
     element.style.display = 'none';
   });
+}
+
+function getAdminManageableGems() {
+  return state.restaurantDatabase.filter(spot => (
+    String(spot.id).startsWith('db-') ||
+    String(spot.id).startsWith('local-')
+  ));
+}
+
+function showAdminDashboard() {
+  const user = getSavedUserProfile();
+
+  if (!isAdminProfile(user)) {
+    alert('Admin access is only available for Niya Sreejith.');
+    return;
+  }
+
+  document.getElementById('avatar-dropdown').classList.remove('open');
+  document.getElementById('admin').classList.add('visible');
+  renderAdminGemList();
+  window.location.hash = 'admin';
+  document.getElementById('admin').scrollIntoView({ behavior: 'smooth' });
+}
+
+function renderAdminGemList() {
+  const listEl = document.getElementById('admin-gem-list');
+  const query = document.getElementById('admin-search').value.trim().toLowerCase();
+  const gems = getAdminManageableGems().filter(spot => {
+    const haystack = `${spot.name} ${spot.dish} ${destinations[spot.placeKey]?.name || ''}`.toLowerCase();
+    return !query || haystack.includes(query);
+  });
+
+  if (gems.length === 0) {
+    listEl.innerHTML = '<div class="admin-empty">No added gems found. New community gems will appear here for review.</div>';
+    return;
+  }
+
+  listEl.innerHTML = gems.map(spot => `
+    <div class="admin-row">
+      <div>
+        <div class="admin-row-title">${escapeHtml(spot.name)}</div>
+        <div class="admin-row-meta">${escapeHtml(destinations[spot.placeKey]?.name || spot.placeKey)} · ${escapeHtml(spot.dish)} · ${escapeHtml(spot.type)}</div>
+      </div>
+      <button type="button" class="admin-delete-btn" data-admin-delete="${escapeHtml(spot.id)}">Remove Gem</button>
+    </div>
+  `).join('');
+}
+
+async function refreshAdminDashboard() {
+  await loadDatabase();
+  updateUI(document.getElementById('place-selector').value);
+  renderAdminGemList();
+}
+
+async function deleteAdminGem(spotId) {
+  const spot = state.restaurantDatabase.find(item => item.id === spotId);
+  if (!spot) return;
+
+  const ok = confirm(`Remove "${spot.name}" from the shared food map?`);
+  if (!ok) return;
+
+  try {
+    if (spotId.startsWith('db-')) {
+      await deleteDatabaseSpot(spotId, { admin: true });
+    } else if (spotId.startsWith('local-')) {
+      deleteLocalCustomSpot(spotId);
+    }
+
+    removeUserSpotId(spotId);
+    state.restaurantDatabase = state.restaurantDatabase.filter(item => item.id !== spotId);
+
+    if (state.activeMarkers[spotId]) {
+      state.mapInstance.removeLayer(state.activeMarkers[spotId]);
+      delete state.activeMarkers[spotId];
+    }
+
+    updateUI(document.getElementById('place-selector').value);
+    renderAdminGemList();
+
+    if (!document.getElementById('saved-panel').hidden) {
+      renderSavedTrailsPanel();
+    }
+  } catch (error) {
+    alert(error.message);
+  }
 }
 
 /* spots.js */
@@ -1501,7 +2116,8 @@ async function addNewCustomSpot(e) {
     history: document.getElementById('new-history').value,
     type: document.getElementById('new-type').value,
     placeKey: document.getElementById('target-place').value,
-    emotionalTag: 'comfort'
+    emotionalTag: 'comfort',
+    ownerKey: getOwnerKey()
   };
 
   button.disabled = true;
@@ -1512,6 +2128,7 @@ async function addNewCustomSpot(e) {
   try {
     const gem = await createDatabaseSpot(payload);
     state.restaurantDatabase.push(gem);
+    saveUserSpotId(gem.id);
 
     status.className = 'form-status success';
     status.textContent = `"${gem.name}" has been added to the shared map.`;
@@ -1527,6 +2144,7 @@ async function addNewCustomSpot(e) {
     };
 
     saveLocalCustomSpot(localGem);
+    saveUserSpotId(localGem.id);
     state.restaurantDatabase.push(localGem);
 
     status.className = 'form-status error';
@@ -1563,7 +2181,30 @@ function bindEvents() {
   document.getElementById('nav-avatar').addEventListener('click', toggleAvatarDropdown);
   document.getElementById('manage-account-btn').addEventListener('click', openManageAccount);
   document.getElementById('saved-trails-btn').addEventListener('click', openSavedTrails);
+  document.getElementById('admin-dashboard-btn').addEventListener('click', showAdminDashboard);
   document.getElementById('sign-out-btn').addEventListener('click', signOutUser);
+  document.getElementById('saved-panel-close').addEventListener('click', closeSavedTrails);
+  document.getElementById('save-current-trail-btn').addEventListener('click', saveCurrentTrail);
+  document.getElementById('saved-panel').addEventListener('click', event => {
+    if (event.target.id === 'saved-panel') closeSavedTrails();
+  });
+  document.getElementById('saved-trails-list').addEventListener('click', event => {
+    const button = event.target.closest('[data-delete-trail]');
+    if (button) deleteSavedTrail(Number(button.dataset.deleteTrail));
+  });
+  document.getElementById('saved-gems-list').addEventListener('click', event => {
+    const button = event.target.closest('[data-delete-gem]');
+    if (button) deleteMappedGem(button.dataset.deleteGem);
+  });
+  document.getElementById('admin-refresh-btn').addEventListener('click', refreshAdminDashboard);
+  document.getElementById('admin-search').addEventListener('input', renderAdminGemList);
+  document.getElementById('admin-gem-list').addEventListener('click', event => {
+    const button = event.target.closest('[data-admin-delete]');
+    if (button) deleteAdminGem(button.dataset.adminDelete);
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeSavedTrails();
+  });
   document.getElementById('scroll-explore').addEventListener('click', () => {
     document.getElementById('explore').scrollIntoView({ behavior: 'smooth' });
   });

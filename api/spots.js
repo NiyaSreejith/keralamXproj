@@ -23,6 +23,12 @@ const allowedTypes = new Set([
 let sql;
 let schemaReady = false;
 
+const adminProfile = {
+  name: 'niya sreejith',
+  email: 'niya12@gmail.com',
+  region: 'malabar'
+};
+
 function getConnectionString() {
   return process.env.DATABASE_URL || process.env.POSTGRES_URL;
 }
@@ -58,8 +64,14 @@ async function ensureSchema() {
       lat_offset DOUBLE PRECISION NOT NULL,
       lng_offset DOUBLE PRECISION NOT NULL,
       emotional_tag TEXT NOT NULL DEFAULT 'comfort',
+      owner_key TEXT,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )
+  `;
+
+  await getSql()`
+    ALTER TABLE food_spots
+    ADD COLUMN IF NOT EXISTS owner_key TEXT
   `;
 
   schemaReady = true;
@@ -105,6 +117,34 @@ function sendJson(res, statusCode, payload) {
   res.end(JSON.stringify(payload));
 }
 
+function normalizeAdminValue(value) {
+  return String(value || '').trim().toLowerCase();
+}
+
+function isAdminRequest(body, requestUrl, req) {
+  const name = normalizeAdminValue(
+    (req.query && req.query.adminName) ||
+    requestUrl.searchParams.get('adminName') ||
+    body.adminName
+  );
+  const email = normalizeAdminValue(
+    (req.query && req.query.adminEmail) ||
+    requestUrl.searchParams.get('adminEmail') ||
+    body.adminEmail
+  );
+  const region = normalizeAdminValue(
+    (req.query && req.query.adminRegion) ||
+    requestUrl.searchParams.get('adminRegion') ||
+    body.adminRegion
+  );
+
+  return (
+    name === adminProfile.name &&
+    email === adminProfile.email &&
+    region === adminProfile.region
+  );
+}
+
 module.exports = async function handler(req, res) {
   try {
     if (!getConnectionString()) {
@@ -132,6 +172,7 @@ module.exports = async function handler(req, res) {
       const history = cleanText(body.history, 'Cultural context', 500);
       const type = cleanText(body.type, 'Category', 60);
       const placeKey = cleanText(body.placeKey, 'Location', 40);
+      const ownerKey = String(body.ownerKey || '').trim().slice(0, 120);
 
       if (!allowedTypes.has(type)) {
         return sendJson(res, 400, { error: 'Unsupported category.' });
@@ -150,7 +191,8 @@ module.exports = async function handler(req, res) {
           place_key,
           lat_offset,
           lng_offset,
-          emotional_tag
+          emotional_tag,
+          owner_key
         )
         VALUES (
           ${name},
@@ -160,7 +202,8 @@ module.exports = async function handler(req, res) {
           ${placeKey},
           ${(Math.random() - 0.5) * 0.012},
           ${(Math.random() - 0.5) * 0.012},
-          ${body.emotionalTag || 'comfort'}
+          ${body.emotionalTag || 'comfort'},
+          ${ownerKey || null}
         )
         RETURNING id, name, dish, history, type, place_key, lat_offset, lng_offset, emotional_tag
       `;
@@ -168,7 +211,48 @@ module.exports = async function handler(req, res) {
       return sendJson(res, 201, { spot: toClientSpot(rows[0]) });
     }
 
-    res.setHeader('Allow', 'GET, POST');
+    if (req.method === 'DELETE') {
+      const requestUrl = new URL(req.url, 'http://localhost');
+      const rawId = (req.query && req.query.id) || requestUrl.searchParams.get('id') || '';
+      const body = parseBody(req);
+      const isAdmin = isAdminRequest(body, requestUrl, req);
+      const ownerKey = String(
+        (req.query && req.query.ownerKey) ||
+        requestUrl.searchParams.get('ownerKey') ||
+        body.ownerKey ||
+        ''
+      ).trim();
+      const id = String(rawId).replace(/^db-/, '');
+
+      if (!/^\d+$/.test(id)) {
+        return sendJson(res, 400, { error: 'A valid food spot id is required.' });
+      }
+
+      if (!isAdmin && !ownerKey) {
+        return sendJson(res, 403, { error: 'Only the explorer who added this spot can delete it.' });
+      }
+
+      const rows = isAdmin
+        ? await getSql()`
+          DELETE FROM food_spots
+          WHERE id = ${Number(id)}
+          RETURNING id
+        `
+        : await getSql()`
+          DELETE FROM food_spots
+          WHERE id = ${Number(id)}
+            AND owner_key = ${ownerKey}
+          RETURNING id
+        `;
+
+      if (rows.length === 0) {
+        return sendJson(res, 404, { error: 'Food spot was not found or cannot be deleted by this explorer.' });
+      }
+
+      return sendJson(res, 200, { deleted: `db-${rows[0].id}` });
+    }
+
+    res.setHeader('Allow', 'GET, POST, DELETE');
     return sendJson(res, 405, { error: 'Method not allowed.' });
   } catch (error) {
     console.error(error);
