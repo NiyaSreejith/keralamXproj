@@ -9,793 +9,810 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
-        :root {
-            --crimson: #7D1128;
-            --crimson-dark: #4A0A18;
-            --crimson-light: #B5183A;
-            --gold: #C9963A;
-            --gold-light: #E8C06A;
-            --cream: #F9F4EC;
-            --cream-dark: #EDE5D6;
-            --text: #1C1008;
-            --text-muted: #7A6652;
-            --white: #FFFFFF;
-            --border: rgba(125, 17, 40, 0.12);
-
-            --font-display: 'Cormorant Garamond', serif;
-            --font-body: 'DM Sans', sans-serif;
-
-            --radius-sm: 8px;
-            --radius-md: 14px;
-            --radius-lg: 22px;
-
-            --shadow-sm: 0 2px 8px rgba(28, 16, 8, 0.06);
-            --shadow-md: 0 8px 28px rgba(28, 16, 8, 0.10);
-            --shadow-lg: 0 20px 56px rgba(28, 16, 8, 0.14);
-        }
-
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-            font-family: var(--font-body);
-            background: var(--cream);
-            color: var(--text);
-            overflow-x: hidden;
-        }
-
-        /* ─── NAVBAR ─────────────────────────────── */
-        .navbar {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 48px;
-            height: 68px;
-            background: rgba(249, 244, 236, 0.92);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .nav-logo {
-            font-family: var(--font-display);
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--crimson);
-            letter-spacing: -0.5px;
-            text-decoration: none;
-        }
-
-        .nav-logo span { color: var(--gold); }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 36px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover { color: var(--crimson); }
-
-        .nav-cta {
-            background: var(--crimson);
-            color: var(--cream) !important;
-            padding: 9px 22px;
-            border-radius: 50px;
-            font-weight: 600 !important;
-            transition: background 0.2s, transform 0.2s !important;
-        }
-
-        .nav-cta:hover {
-            background: var(--crimson-light) !important;
-            transform: translateY(-1px);
-            color: var(--cream) !important;
-        }
-
-        /* Profile avatar in nav */
-        .nav-avatar {
-            display: none;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .nav-avatar.visible { display: flex; }
-
-        .avatar-circle {
-            width: 36px; height: 36px;
-            border-radius: 50%;
-            background: var(--crimson);
-            color: var(--cream);
-            font-size: 13px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid var(--gold);
-        }
-
-        .avatar-name {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text);
-        }
-
-        .avatar-dropdown {
-            display: none;
-            position: absolute;
-            top: calc(100% + 14px);
-            right: 0;
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-lg);
-            min-width: 220px;
-            overflow: hidden;
-        }
-
-        .avatar-dropdown.open { display: block; }
-
-        .dropdown-user {
-            padding: 16px 18px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .dropdown-user .name { font-weight: 600; font-size: 14px; }
-        .dropdown-user .email { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-
-        .dropdown-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 11px 18px;
-            font-size: 14px;
-            color: var(--text);
-            cursor: pointer;
-            transition: background 0.15s;
-        }
-
-        .dropdown-item:hover { background: var(--cream); }
-        .dropdown-item.danger { color: #DC2626; }
-
-        /* ─── HERO ─────────────────────────────────── */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: stretch;
-            padding-top: 68px;
-            background: var(--crimson-dark);
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Decorative background texture */
-        .hero::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image:
-                radial-gradient(ellipse 60% 50% at 20% 60%, rgba(201, 150, 58, 0.18), transparent),
-                radial-gradient(ellipse 40% 60% at 80% 20%, rgba(125, 17, 40, 0.5), transparent);
-            pointer-events: none;
-        }
-
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1fr 420px;
-            width: 100%;
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 80px 48px;
-            gap: 60px;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-left {}
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(201, 150, 58, 0.15);
-            border: 1px solid rgba(201, 150, 58, 0.35);
-            border-radius: 50px;
-            padding: 6px 16px;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--gold-light);
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            margin-bottom: 28px;
-        }
-
-        .hero-title {
-            font-family: var(--font-display);
-            font-size: 78px;
-            font-weight: 700;
-            color: var(--cream);
-            line-height: 1.0;
-            letter-spacing: -2px;
-            margin-bottom: 6px;
-        }
-
-        .hero-title em {
-            font-style: italic;
-            color: var(--gold-light);
-        }
-
-        .hero-subtitle {
-            font-family: var(--font-display);
-            font-size: 32px;
-            font-weight: 400;
-            font-style: italic;
-            color: rgba(249, 244, 236, 0.55);
-            margin-bottom: 28px;
-        }
-
-        .hero-desc {
-            font-size: 15px;
-            line-height: 1.75;
-            color: rgba(249, 244, 236, 0.7);
-            max-width: 520px;
-            margin-bottom: 44px;
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 40px;
-        }
-
-        .stat-item { }
-        .stat-num {
-            font-family: var(--font-display);
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--gold-light);
-            line-height: 1;
-        }
-        .stat-label {
-            font-size: 12px;
-            color: rgba(249, 244, 236, 0.5);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 4px;
-        }
-
-        /* Signup Card */
-        .hero-card {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            padding: 40px;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .hero-card h2 {
-            font-family: var(--font-display);
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--crimson);
-            margin-bottom: 6px;
-        }
-
-        .hero-card .card-sub {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-bottom: 28px;
-            line-height: 1.5;
-        }
-
-        .form-group { margin-bottom: 18px; }
-
-        .form-group label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 7px;
-        }
-
-        .form-group input,
-        .form-group select {
-            font-family: var(--font-body);
-            width: 100%;
-            padding: 11px 14px;
-            border: 1.5px solid var(--cream-dark);
-            border-radius: var(--radius-sm);
-            font-size: 14px;
-            color: var(--text);
-            background: var(--cream);
-            outline: none;
-            transition: border-color 0.2s, background 0.2s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            border-color: var(--crimson);
-            background: var(--white);
-        }
-
-        .btn-primary {
-            font-family: var(--font-body);
-            width: 100%;
-            padding: 14px;
-            background: var(--crimson);
-            color: var(--cream);
-            border: none;
-            border-radius: var(--radius-sm);
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            letter-spacing: 0.5px;
-            transition: background 0.2s, transform 0.2s;
-        }
-
-        .btn-primary:hover {
-            background: var(--crimson-light);
-            transform: translateY(-1px);
-        }
-
-        .scroll-down {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            position: absolute;
-            bottom: 32px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(249,244,236,0.45);
-            font-size: 11px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            cursor: pointer;
-            animation: scrollBounce 2.2s ease-in-out infinite;
-            z-index: 2;
-        }
-
-        .scroll-down svg { opacity: 0.5; }
-
-        @keyframes scrollBounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(6px); }
-        }
-
-        /* ─── APP SECTION ─────────────────────────── */
-        .app-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 72px 48px;
-        }
-
-        .section-label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-            color: var(--crimson);
-            margin-bottom: 10px;
-        }
-
-        .section-label::before {
-            content: '';
-            width: 28px;
-            height: 2px;
-            background: var(--gold);
-        }
-
-        .section-title {
-            font-family: var(--font-display);
-            font-size: 44px;
-            font-weight: 700;
-            color: var(--text);
-            line-height: 1.15;
-            margin-bottom: 40px;
-        }
-
-        /* ─── CONTROL BAR ──────────────────────────── */
-        .control-bar {
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 20px 24px;
-            box-shadow: var(--shadow-sm);
-            margin-bottom: 28px;
-        }
-
-        .control-bar-top {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .control-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .control-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-            white-space: nowrap;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .control-bar select,
-        .control-bar input[type="text"] {
-            font-family: var(--font-body);
-            padding: 8px 14px;
-            font-size: 13px;
-            border: 1.5px solid var(--cream-dark);
-            border-radius: 50px;
-            background: var(--cream);
-            color: var(--text);
-            font-weight: 500;
-            outline: none;
-            cursor: pointer;
-            transition: border-color 0.2s;
-        }
-
-        .control-bar input[type="text"] { cursor: text; min-width: 180px; }
-
-        .control-bar select:focus,
-        .control-bar input[type="text"]:focus {
-            border-color: var(--crimson);
-        }
-
-        .divider-v {
-            width: 1px;
-            height: 28px;
-            background: var(--border);
-            flex-shrink: 0;
-        }
-
-        .ml-auto { margin-left: auto; }
-
-        .btn-trail {
-            font-family: var(--font-body);
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            padding: 9px 20px;
-            background: var(--text);
-            color: var(--cream);
-            border: none;
-            border-radius: 50px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s, transform 0.15s;
-            white-space: nowrap;
-        }
-
-        .btn-trail:hover { background: var(--crimson); transform: translateY(-1px); }
-        .btn-trail.active { background: #166534; }
-
-        /* Crave row */
-        .crave-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid var(--cream-dark);
-        }
-
-        .crave-label-text {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-        }
-
-        .crave-pill {
-            padding: 6px 16px;
-            border: 1.5px solid var(--cream-dark);
-            border-radius: 50px;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text-muted);
-            background: transparent;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .crave-pill:hover {
-            border-color: var(--crimson);
-            color: var(--crimson);
-        }
-
-        .crave-pill.active {
-            background: var(--crimson);
-            border-color: var(--crimson);
-            color: var(--cream);
-            font-weight: 600;
-        }
-
-        /* ─── MAP ───────────────────────────────────── */
-        #map {
-            height: 480px;
-            width: 100%;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-            margin-bottom: 44px;
-            border: 1px solid var(--border);
-            overflow: hidden;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* ─── RESULTS HEADER ────────────────────────── */
-        .results-header {
-            display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            margin-bottom: 22px;
-        }
-
-        .results-title {
-            font-family: var(--font-display);
-            font-size: 30px;
-            font-weight: 700;
-            color: var(--text);
-        }
-
-        .results-count {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-
-        /* ─── CARDS GRID ─────────────────────────────── */
-        #food-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .food-card {
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 24px;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .food-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: var(--gold);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s;
-        }
-
-        .food-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-            border-color: rgba(125, 17, 40, 0.2);
-        }
-
-        .food-card:hover::before { transform: scaleX(1); }
-
-        .card-top {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .card-tag {
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            padding: 4px 11px;
-            border-radius: 50px;
-            background: rgba(125, 17, 40, 0.08);
-            color: var(--crimson);
-            white-space: nowrap;
-        }
-
-        .card-tag.street { background: rgba(201, 150, 58, 0.12); color: #9A6E1A; }
-        .card-tag.traditional { background: rgba(22, 101, 52, 0.1); color: #166534; }
-        .card-tag.heritage { background: rgba(234, 88, 12, 0.1); color: #C2410C; }
-        .card-tag.community { background: rgba(2, 132, 199, 0.1); color: #0369A1; }
-
-        .card-name {
-            font-family: var(--font-display);
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--text);
-            line-height: 1.2;
-        }
-
-        .card-history {
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.6;
-            font-style: italic;
-        }
-
-        .card-dish {
-            border-top: 1px solid var(--cream-dark);
-            padding-top: 14px;
-        }
-
-        .card-dish-label {
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 5px;
-        }
-
-        .card-dish-name {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--crimson);
-        }
-
-        .no-results {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 56px 20px;
-            color: var(--text-muted);
-            font-size: 15px;
-        }
-
-        /* ─── ADD SPOT SECTION ─────────────────────── */
-        .add-section {
-            background: var(--crimson-dark);
-            padding: 80px 0;
-            margin-top: 24px;
-        }
-
-        .add-section-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 48px;
-            display: grid;
-            grid-template-columns: 1fr 480px;
-            gap: 80px;
-            align-items: start;
-        }
-
-        .add-left .section-label { color: var(--gold-light); }
-        .add-left .section-label::before { background: var(--gold); }
-
-        .add-title {
-            font-family: var(--font-display);
-            font-size: 48px;
-            font-weight: 700;
-            color: var(--cream);
-            line-height: 1.1;
-            margin-bottom: 20px;
-        }
-
-        .add-desc {
-            font-size: 15px;
-            line-height: 1.75;
-            color: rgba(249, 244, 236, 0.6);
-        }
-
-        .add-card {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            padding: 36px;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .add-card h3 {
-            font-family: var(--font-display);
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--crimson);
-            margin-bottom: 24px;
-        }
-
-        /* ─── FOOTER ─────────────────────────────────── */
-        footer {
-            background: var(--text);
-            padding: 40px 48px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .footer-logo {
-            font-family: var(--font-display);
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--cream);
-        }
-
-        .footer-logo span { color: var(--gold); }
-
-        .footer-text {
-            font-size: 13px;
-            color: rgba(249, 244, 236, 0.35);
-        }
-
-        /* Custom Leaflet marker */
-        .custom-marker {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 50%;
-            border: 2.5px solid white;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-            font-size: 14px;
-        }
-
-        /* ─── RESPONSIVE ─────────────────────────────── */
-        @media (max-width: 960px) {
-            .navbar { padding: 0 24px; }
-            .nav-links { display: none; }
-
-            .hero-grid {
-                grid-template-columns: 1fr;
-                padding: 48px 24px;
-                gap: 40px;
-            }
-
-            .hero-title { font-size: 52px; }
-            .hero-subtitle { font-size: 24px; }
-
-            .app-section { padding: 48px 24px; }
-            .section-title { font-size: 34px; }
-
-            .add-section-inner {
-                grid-template-columns: 1fr;
-                padding: 0 24px;
-                gap: 40px;
-            }
-
-            .add-title { font-size: 36px; }
-            footer { flex-direction: column; gap: 12px; text-align: center; padding: 32px 24px; }
-
-            #food-container { grid-template-columns: 1fr 1fr; }
-        }
-
-        @media (max-width: 640px) {
-            #food-container { grid-template-columns: 1fr; }
-            .hero-stats { gap: 24px; }
-            .hero-title { font-size: 40px; }
-        }
+:root {
+    --crimson: #7D1128;
+    --crimson-dark: #4A0A18;
+    --crimson-light: #B5183A;
+    --gold: #C9963A;
+    --gold-light: #E8C06A;
+    --cream: #F9F4EC;
+    --cream-dark: #EDE5D6;
+    --text: #1C1008;
+    --text-muted: #7A6652;
+    --white: #FFFFFF;
+    --border: rgba(125, 17, 40, 0.12);
+
+    --font-display: 'Cormorant Garamond', serif;
+    --font-body: 'DM Sans', sans-serif;
+
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 22px;
+
+    --shadow-sm: 0 2px 8px rgba(28, 16, 8, 0.06);
+    --shadow-md: 0 8px 28px rgba(28, 16, 8, 0.10);
+    --shadow-lg: 0 20px 56px rgba(28, 16, 8, 0.14);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+/* ─── NAVBAR ─────────────────────────────── */
+.navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 68px;
+    background: rgba(249, 244, 236, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--crimson);
+    letter-spacing: -0.5px;
+    text-decoration: none;
+}
+
+.nav-logo span { color: var(--gold); }
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    list-style: none;
+}
+
+.nav-links a {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--crimson); }
+
+.nav-cta {
+    background: var(--crimson);
+    color: var(--cream) !important;
+    padding: 9px 22px;
+    border-radius: 50px;
+    font-weight: 600 !important;
+    transition: background 0.2s, transform 0.2s !important;
+}
+
+.nav-cta:hover {
+    background: var(--crimson-light) !important;
+    transform: translateY(-1px);
+    color: var(--cream) !important;
+}
+
+/* Profile avatar in nav */
+.nav-avatar {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.nav-avatar.visible { display: flex; }
+
+.avatar-circle {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--crimson);
+    color: var(--cream);
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--gold);
+}
+
+.avatar-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+}
+
+.avatar-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 14px);
+    right: 0;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    min-width: 220px;
+    overflow: hidden;
+}
+
+.avatar-dropdown.open { display: block; }
+
+.dropdown-user {
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--border);
+}
+
+.dropdown-user .name { font-weight: 600; font-size: 14px; }
+.dropdown-user .email { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 18px;
+    font-size: 14px;
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.dropdown-item:hover { background: var(--cream); }
+.dropdown-item.danger { color: #DC2626; }
+
+/* ─── HERO ─────────────────────────────────── */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: stretch;
+    padding-top: 68px;
+    background: var(--crimson-dark);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Decorative background texture */
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(ellipse 60% 50% at 20% 60%, rgba(201, 150, 58, 0.18), transparent),
+        radial-gradient(ellipse 40% 60% at 80% 20%, rgba(125, 17, 40, 0.5), transparent);
+    pointer-events: none;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 80px 48px;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-left {}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(201, 150, 58, 0.15);
+    border: 1px solid rgba(201, 150, 58, 0.35);
+    border-radius: 50px;
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gold-light);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+}
+
+.hero-title {
+    font-family: var(--font-display);
+    font-size: 78px;
+    font-weight: 700;
+    color: var(--cream);
+    line-height: 1.0;
+    letter-spacing: -2px;
+    margin-bottom: 6px;
+}
+
+.hero-title em {
+    font-style: italic;
+    color: var(--gold-light);
+}
+
+.hero-subtitle {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 400;
+    font-style: italic;
+    color: rgba(249, 244, 236, 0.55);
+    margin-bottom: 28px;
+}
+
+.hero-desc {
+    font-size: 15px;
+    line-height: 1.75;
+    color: rgba(249, 244, 236, 0.7);
+    max-width: 520px;
+    margin-bottom: 44px;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 40px;
+}
+
+.stat-item { }
+.stat-num {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--gold-light);
+    line-height: 1;
+}
+.stat-label {
+    font-size: 12px;
+    color: rgba(249, 244, 236, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+}
+
+/* Signup Card */
+.hero-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    box-shadow: var(--shadow-lg);
+}
+
+.hero-card h2 {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--crimson);
+    margin-bottom: 6px;
+}
+
+.hero-card .card-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+    line-height: 1.5;
+}
+
+.form-group { margin-bottom: 18px; }
+
+.form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 7px;
+}
+
+.form-group input,
+.form-group select {
+    font-family: var(--font-body);
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--cream-dark);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    color: var(--text);
+    background: var(--cream);
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--crimson);
+    background: var(--white);
+}
+
+.btn-primary {
+    font-family: var(--font-body);
+    width: 100%;
+    padding: 14px;
+    background: var(--crimson);
+    color: var(--cream);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.btn-primary:hover {
+    background: var(--crimson-light);
+    transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+    opacity: 0.7;
+    cursor: wait;
+    transform: none;
+}
+
+.form-status {
+    min-height: 18px;
+    margin-top: 12px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+.form-status.error { color: #B91C1C; }
+.form-status.success { color: #166534; }
+
+.scroll-down {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(249,244,236,0.45);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    animation: scrollBounce 2.2s ease-in-out infinite;
+    z-index: 2;
+}
+
+.scroll-down svg { opacity: 0.5; }
+
+@keyframes scrollBounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+}
+
+/* ─── APP SECTION ─────────────────────────── */
+.app-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 72px 48px;
+}
+
+.section-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--crimson);
+    margin-bottom: 10px;
+}
+
+.section-label::before {
+    content: '';
+    width: 28px;
+    height: 2px;
+    background: var(--gold);
+}
+
+.section-title {
+    font-family: var(--font-display);
+    font-size: 44px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.15;
+    margin-bottom: 40px;
+}
+
+/* ─── CONTROL BAR ──────────────────────────── */
+.control-bar {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px 24px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 28px;
+}
+
+.control-bar-top {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.control-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.control-bar select,
+.control-bar input[type="text"] {
+    font-family: var(--font-body);
+    padding: 8px 14px;
+    font-size: 13px;
+    border: 1.5px solid var(--cream-dark);
+    border-radius: 50px;
+    background: var(--cream);
+    color: var(--text);
+    font-weight: 500;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.control-bar input[type="text"] { cursor: text; min-width: 180px; }
+
+.control-bar select:focus,
+.control-bar input[type="text"]:focus {
+    border-color: var(--crimson);
+}
+
+.divider-v {
+    width: 1px;
+    height: 28px;
+    background: var(--border);
+    flex-shrink: 0;
+}
+
+.ml-auto { margin-left: auto; }
+
+.btn-trail {
+    font-family: var(--font-body);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 20px;
+    background: var(--text);
+    color: var(--cream);
+    border: none;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    white-space: nowrap;
+}
+
+.btn-trail:hover { background: var(--crimson); transform: translateY(-1px); }
+.btn-trail.active { background: #166534; }
+
+/* Crave row */
+.crave-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--cream-dark);
+}
+
+.crave-label-text {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+}
+
+.crave-pill {
+    padding: 6px 16px;
+    border: 1.5px solid var(--cream-dark);
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.crave-pill:hover {
+    border-color: var(--crimson);
+    color: var(--crimson);
+}
+
+.crave-pill.active {
+    background: var(--crimson);
+    border-color: var(--crimson);
+    color: var(--cream);
+    font-weight: 600;
+}
+
+/* ─── MAP ───────────────────────────────────── */
+#map {
+    height: 480px;
+    width: 100%;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin-bottom: 44px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+/* ─── RESULTS HEADER ────────────────────────── */
+.results-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 22px;
+}
+
+.results-title {
+    font-family: var(--font-display);
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.results-count {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* ─── CARDS GRID ─────────────────────────────── */
+#food-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.food-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+    position: relative;
+    overflow: hidden;
+}
+
+.food-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+}
+
+.food-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(125, 17, 40, 0.2);
+}
+
+.food-card:hover::before { transform: scaleX(1); }
+
+.card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.card-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 11px;
+    border-radius: 50px;
+    background: rgba(125, 17, 40, 0.08);
+    color: var(--crimson);
+    white-space: nowrap;
+}
+
+.card-tag.street { background: rgba(201, 150, 58, 0.12); color: #9A6E1A; }
+.card-tag.traditional { background: rgba(22, 101, 52, 0.1); color: #166534; }
+.card-tag.heritage { background: rgba(234, 88, 12, 0.1); color: #C2410C; }
+.card-tag.community { background: rgba(2, 132, 199, 0.1); color: #0369A1; }
+
+.card-name {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+}
+
+.card-history {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-style: italic;
+}
+
+.card-dish {
+    border-top: 1px solid var(--cream-dark);
+    padding-top: 14px;
+}
+
+.card-dish-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+}
+
+.card-dish-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--crimson);
+}
+
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 56px 20px;
+    color: var(--text-muted);
+    font-size: 15px;
+}
+
+/* ─── ADD SPOT SECTION ─────────────────────── */
+.add-section {
+    background: var(--crimson-dark);
+    padding: 80px 0;
+    margin-top: 24px;
+}
+
+.add-section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 48px;
+    display: grid;
+    grid-template-columns: 1fr 480px;
+    gap: 80px;
+    align-items: start;
+}
+
+.add-left .section-label { color: var(--gold-light); }
+.add-left .section-label::before { background: var(--gold); }
+
+.add-title {
+    font-family: var(--font-display);
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--cream);
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+.add-desc {
+    font-size: 15px;
+    line-height: 1.75;
+    color: rgba(249, 244, 236, 0.6);
+}
+
+.add-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+    box-shadow: var(--shadow-lg);
+}
+
+.add-card h3 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--crimson);
+    margin-bottom: 24px;
+}
+
+/* ─── FOOTER ─────────────────────────────────── */
+footer {
+    background: var(--text);
+    padding: 40px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.footer-logo {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--cream);
+}
+
+.footer-logo span { color: var(--gold); }
+
+.footer-text {
+    font-size: 13px;
+    color: rgba(249, 244, 236, 0.35);
+}
+
+/* Custom Leaflet marker */
+.custom-marker {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 2.5px solid white;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    font-size: 14px;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────── */
+@media (max-width: 960px) {
+    .navbar { padding: 0 24px; }
+    .nav-links { display: none; }
+
+    .hero-grid {
+        grid-template-columns: 1fr;
+        padding: 48px 24px;
+        gap: 40px;
+    }
+
+    .hero-title { font-size: 52px; }
+    .hero-subtitle { font-size: 24px; }
+
+    .app-section { padding: 48px 24px; }
+    .section-title { font-size: 34px; }
+
+    .add-section-inner {
+        grid-template-columns: 1fr;
+        padding: 0 24px;
+        gap: 40px;
+    }
+
+    .add-title { font-size: 36px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; padding: 32px 24px; }
+
+    #food-container { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 640px) {
+    #food-container { grid-template-columns: 1fr; }
+    .hero-stats { gap: 24px; }
+    .hero-title { font-size: 40px; }
+}
     </style>
 </head>
 <body>
@@ -813,7 +830,7 @@
     </ul>
 
     <!-- Profile (shown after signup) -->
-    <div class="nav-avatar" id="nav-avatar" onclick="toggleAvatarDropdown()">
+    <div class="nav-avatar" id="nav-avatar">
         <div class="avatar-circle" id="avatar-initials">??</div>
         <span class="avatar-name" id="avatar-name">Explorer</span>
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="#7A6652" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -822,15 +839,15 @@
                 <div class="name" id="drop-name">Explorer</div>
                 <div class="email" id="drop-email">guest@keralamx.com</div>
             </div>
-            <div class="dropdown-item" onclick="openManageAccount()">
+            <div class="dropdown-item" id="manage-account-btn">
     👤 Manage Account
 </div>
 
-<div class="dropdown-item" onclick="openSavedTrails()">
+<div class="dropdown-item" id="saved-trails-btn">
     🗺 Saved Trails
 </div>
 
-<div class="dropdown-item danger" onclick="signOutUser()">
+<div class="dropdown-item danger" id="sign-out-btn">
     ↩ Sign Out
 </div>
             
@@ -868,7 +885,7 @@
         <div class="hero-card">
             <h2>Join the Explorer Guild</h2>
             <p class="card-sub">Create a profile to unlock hidden food trails and log gems onto our map system.</p>
-            <form onsubmit="handleSignup(event)">
+            <form id="signup-form">
                 <div class="form-group">
                     <label>Your Name</label>
                     <input id="signup-name" type="text" placeholder="e.g., Madhavan Nair" required>
@@ -890,7 +907,7 @@
         </div>
     </div>
 
-    <div class="scroll-down" onclick="document.getElementById('explore').scrollIntoView({behavior:'smooth'})">
+    <div class="scroll-down" id="scroll-explore">
         <span>Scroll to explore</span>
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 7L9 12L14 7" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
     </div>
@@ -909,7 +926,7 @@
         <div class="control-bar-top">
             <div class="control-group">
                 <span class="control-label">Destination</span>
-                <select id="place-selector" onchange="handlePlaceSelection()">
+                <select id="place-selector">
                     <option value="kozhikode">Kozhikode</option>
                     <option value="kochi">Kochi / Ernakulam</option>
                     <option value="trivandrum">Thiruvananthapuram</option>
@@ -926,12 +943,12 @@
 
             <div class="control-group">
                 <span class="control-label">Search</span>
-                <input type="text" id="search-bar" placeholder="Dish or eatery..." oninput="filterFoodItems()">
+                <input type="text" id="search-bar" placeholder="Dish or eatery...">
             </div>
 
             <div class="control-group">
                 <span class="control-label">Vibe</span>
-                <select id="category-filter" onchange="filterFoodItems()">
+                <select id="category-filter">
                     <option value="all">All Vibes</option>
                     <option value="Iconic Legend">Iconic Legend</option>
                     <option value="Street Food">Street Food</option>
@@ -941,7 +958,7 @@
                 </select>
             </div>
 
-            <button id="trail-btn" class="btn-trail ml-auto" onclick="toggleFoodTrail()">
+            <button id="trail-btn" class="btn-trail ml-auto">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7C2 7 4 3 7 3C10 3 12 7 12 7C12 7 10 11 7 11C4 11 2 7 2 7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/></svg>
                 Show Food Trail
             </button>
@@ -949,10 +966,10 @@
 
         <div class="crave-row">
             <span class="crave-label-text">Craving:</span>
-            <button class="crave-pill active" id="crave-all" onclick="setCrave('all')">All</button>
-            <button class="crave-pill" id="crave-spicy" onclick="setCrave('spicy')">🌶️ Spicy & Intense</button>
-            <button class="crave-pill" id="crave-comfort" onclick="setCrave('comfort')">☕ Tea-Time Comfort</button>
-            <button class="crave-pill" id="crave-heritage" onclick="setCrave('heritage')">👑 Time-Honored</button>
+            <button class="crave-pill active" id="crave-all" data-crave="all">All</button>
+            <button class="crave-pill" id="crave-spicy" data-crave="spicy">🌶️ Spicy & Intense</button>
+            <button class="crave-pill" id="crave-comfort" data-crave="comfort">☕ Tea-Time Comfort</button>
+            <button class="crave-pill" id="crave-heritage" data-crave="heritage">👑 Time-Honored</button>
         </div>
     </div>
 
@@ -982,7 +999,7 @@
 
         <div class="add-card">
             <h3>Register a Food Spot</h3>
-            <form id="add-spot-form" onsubmit="addNewCustomSpot(event)">
+            <form id="add-spot-form">
                 <div class="form-group">
                     <label>Eatery / Restaurant Name</label>
                     <input type="text" id="new-resto" placeholder="e.g., Zain's Cafe" required>
@@ -1019,6 +1036,7 @@
                     </select>
                 </div>
                 <button type="submit" class="btn-primary">Register onto Map →</button>
+                <p class="form-status" id="add-spot-status" role="status" aria-live="polite"></p>
             </form>
         </div>
     </div>
@@ -1036,430 +1054,528 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
-    /* ─── DATA ─────────────────────────────────── */
-    const destinations = {
-        kozhikode: { lat: 11.2588, lng: 75.7804, name: "Kozhikode" },
-        kochi:     { lat: 9.9312,  lng: 76.2673, name: "Kochi / Ernakulam" },
-        trivandrum:{ lat: 8.5241,  lng: 76.9366, name: "Thiruvananthapuram" },
-        wayanad:   { lat: 11.5950, lng: 76.2620, name: "Wayanad" },
-        palakkad:  { lat: 10.7867, lng: 76.6548, name: "Palakkad" },
-        munnar:    { lat: 10.0889, lng: 77.0595, name: "Munnar" },
-        alappuzha: { lat: 9.4981,  lng: 76.3388, name: "Alappuzha" },
-        varkala:   { lat: 8.7374,  lng: 76.7063, name: "Varkala" },
-        kumarakom: { lat: 9.5925,  lng: 76.4224, name: "Kumarakom" }
-    };
-
-    const defaultRestaurants = [
-        { id:"1",  name:"Paragon Restaurant",        placeKey:"kozhikode",  latOffset:0.002,  lngOffset:-0.003, dish:"Authentic Malabar Mutton Biryani & Sulaimani",         type:"Iconic Legend",  emotionalTag:"heritage", history:"Operating since 1939, mastering a closely guarded heirloom blend of Malabar spices." },
-        { id:"2",  name:"Alikka's Thattu Kada",      placeKey:"kozhikode",  latOffset:-0.004, lngOffset:0.005,  dish:"Layered Thattu Porotta with Double Beef Fry",          type:"Street Food",    emotionalTag:"spicy",   history:"The ultimate late-night benchmark for street-side iron skillet beef tossing." },
-        { id:"3",  name:"Mullan Pandal Shappu",       placeKey:"kochi",      latOffset:0.006,  lngOffset:-0.001, dish:"Fiery Toddy Shop Beef Roast with Steamed Kappa",       type:"Traditional",    emotionalTag:"spicy",   history:"Deep-rooted culinary institution cooked entirely over wild mangrove logs." },
-        { id:"4",  name:"Bhai Kada Kaloor",           placeKey:"kochi",      latOffset:-0.003, lngOffset:0.004,  dish:"Late-night Mutton Soup & Crispy Bilal Fry",            type:"Street Food",    emotionalTag:"spicy",   history:"Fueling nocturnal travelers and midnight food runs for decades." },
-        { id:"5",  name:"Mubarak Restaurant",         placeKey:"trivandrum", latOffset:0.001,  lngOffset:0.003,  dish:"Trivandrum Style Deep Fried Chicken Fry & Porotta",    type:"Iconic Legend",  emotionalTag:"spicy",   history:"Famous for its specialized high-temp coconut oil chicken drop method." },
-        { id:"6",  name:"Good Morning Hotel",         placeKey:"trivandrum", latOffset:-0.005, lngOffset:-0.002, dish:"Crispy Thattu Dosa, Mulaku Chutney & Rasavada",        type:"Street Food",    emotionalTag:"comfort", history:"Opening at 4:00 AM daily to serve morning commuters traditional breakfast arrays." },
-        { id:"7",  name:"Wilton Restaurant",          placeKey:"wayanad",    latOffset:0.003,  lngOffset:-0.004, dish:"Aromatic Forest Bamboo Biryani & Honey Chicken",       type:"Iconic Legend",  emotionalTag:"heritage",history:"Pioneered slow dum steaming inside fresh highland green bamboo shafts." },
-        { id:"8",  name:"Ramassery Idli Shop",        placeKey:"palakkad",   latOffset:0.001,  lngOffset:0.002,  dish:"Earthen Pot Baked Flat Ramassery Idli & Podi",         type:"Heritage Spot",  emotionalTag:"heritage",history:"Preserving an ultra-rare 200-year-old weaving community recipe baked on muslin cloths." },
-        { id:"9",  name:"Rapsy Restaurant",           placeKey:"munnar",     latOffset:-0.002, lngOffset:0.003,  dish:"High Range Beef Fry & Fluffy Spanish Omelette",        type:"Traditional",    emotionalTag:"comfort", history:"The vintage traveler sanctuary for hikers carbing up post tea-estate treks." },
-        { id:"10", name:"Hillview Tea Corner",        placeKey:"munnar",     latOffset:0.004,  lngOffset:-0.001, dish:"Fresh Cardamom Elaichi Tea & Hot Pazham Fritters",     type:"Traditional",    emotionalTag:"comfort", history:"Perched right over valleys; matches hot plantain fritters to mountain fog." },
-        { id:"11", name:"Raja Hotel Ambalapuzha",     placeKey:"alappuzha",  latOffset:0.002,  lngOffset:-0.002, dish:"Rich Ambalapuzha Palpayasam & Tawa Fried Karimeen",    type:"Traditional",    emotionalTag:"heritage",history:"Acclaimed for sourcing backwater pearl spots directly from traditional lake nets." },
-        { id:"12", name:"Darjeeling Cafe Cliff Edge", placeKey:"varkala",    latOffset:-0.003, lngOffset:0.001,  dish:"Freshly Caught Grilled Calamari & Claypot Prawns",     type:"Heritage Spot",  emotionalTag:"comfort", history:"Overlooking the red Arabian Sea cliffs, blending local marine catch with global styles." },
-        { id:"13", name:"Pearl Spot Lagoon Diner",    placeKey:"kumarakom",  latOffset:0.001,  lngOffset:0.003,  dish:"Vembanad Lake Karimeen Pollichathu",                   type:"Traditional",    emotionalTag:"heritage",history:"Wrapped carefully in single-source banana leaves and slow-seared on clay pans." },
-        { id:"35", name:"Hotel Deluxe",               placeKey:"kozhikode",  latOffset:0.002,  lngOffset:0.003,  dish:"Malabar Chicken Biryani",                              type:"Iconic Legend",  emotionalTag:"heritage",history:"One of Kozhikode's oldest iconic biryani destinations." },
-        { id:"36", name:"KBC Restaurant",             placeKey:"kozhikode",  latOffset:-0.002, lngOffset:0.001,  dish:"Alfaham & Shawarma",                                   type:"Street Food",    emotionalTag:"spicy",   history:"Youth favorite spot famous for grilled Arabian dishes." },
-        { id:"37", name:"M Grill",                    placeKey:"kozhikode",  latOffset:0.004,  lngOffset:-0.003, dish:"Seafood Platters & Biryani",                           type:"Iconic Legend",  emotionalTag:"heritage",history:"Luxury Malabar dining with premium seafood specialties." },
-        { id:"38", name:"Galaxy Restaurant",          placeKey:"kochi",      latOffset:0.002,  lngOffset:0.004,  dish:"Chicken Charcoal & Kuzhimandi",                        type:"Street Food",    emotionalTag:"spicy",   history:"Popular Kochi food destination for Arabian grills." },
-        { id:"39", name:"Brindhavan Vegetarian",      placeKey:"kochi",      latOffset:-0.003, lngOffset:-0.002, dish:"Meals & Ghee Roast",                                   type:"Traditional",    emotionalTag:"comfort", history:"Classic vegetarian restaurant loved by families." },
-        { id:"40", name:"Grand Pavilion",             placeKey:"kochi",      latOffset:0.001,  lngOffset:-0.004, dish:"Kerala Sadya & Fish Curry",                            type:"Heritage Spot",  emotionalTag:"heritage",history:"Elegant Kerala cuisine experience in central Kochi." },
-        { id:"41", name:"Kethel's Chicken",           placeKey:"trivandrum", latOffset:0.003,  lngOffset:-0.001, dish:"Fried Chicken & Burger",                               type:"Street Food",    emotionalTag:"spicy",   history:"One of TVM's iconic fast-food chicken spots." },
-        { id:"42", name:"Azad Restaurant",            placeKey:"trivandrum", latOffset:-0.003, lngOffset:0.002,  dish:"Mutton Curry & Porotta",                               type:"Traditional",    emotionalTag:"comfort", history:"Historic restaurant serving classic Kerala Muslim cuisine." },
-        { id:"43", name:"Hotel New Taj",              placeKey:"wayanad",    latOffset:0.002,  lngOffset:0.002,  dish:"Kuzhimandi & BBQ",                                     type:"Street Food",    emotionalTag:"spicy",   history:"Famous stop for travelers exploring Wayanad." },
-        { id:"44", name:"Green Gates Restaurant",     placeKey:"wayanad",    latOffset:-0.002, lngOffset:-0.003, dish:"Kerala Meals & Fish Fry",                              type:"Traditional",    emotionalTag:"comfort", history:"Traditional Wayanad dining surrounded by greenery." },
-        { id:"45", name:"Noorjahan Hotel",            placeKey:"palakkad",   latOffset:0.001,  lngOffset:0.004,  dish:"Chicken Curry & Porotta",                              type:"Traditional",    emotionalTag:"comfort", history:"Old local restaurant famous for simple naadan flavors." },
-        { id:"46", name:"Sri Krishna Bhavan",         placeKey:"palakkad",   latOffset:-0.003, lngOffset:0.001,  dish:"Idli Sambar & Pongal",                                 type:"Heritage Spot",  emotionalTag:"comfort", history:"Traditional vegetarian breakfast landmark." },
-        { id:"47", name:"SN Restaurant",             placeKey:"alappuzha",  latOffset:0.003,  lngOffset:-0.002, dish:"Karimeen Fry & Crab Roast",                            type:"Iconic Legend",  emotionalTag:"heritage",history:"Seafood destination loved by tourists and locals." },
-        { id:"48", name:"Cassia Restaurant",          placeKey:"alappuzha",  latOffset:-0.002, lngOffset:0.002,  dish:"Duck Roast & Appam",                                   type:"Traditional",    emotionalTag:"heritage",history:"Authentic Syrian Christian Kerala cuisine spot." },
-        { id:"49", name:"Abba Restaurant",            placeKey:"varkala",    latOffset:0.002,  lngOffset:-0.001, dish:"Seafood Grill & Smoothies",                            type:"Heritage Spot",  emotionalTag:"comfort", history:"Relaxed cliffside cafe with beach vibes." },
-        { id:"50", name:"Cafe Del Mar",               placeKey:"varkala",    latOffset:-0.003, lngOffset:0.003,  dish:"Prawns Fry & Pasta",                                   type:"Street Food",    emotionalTag:"comfort", history:"Popular sunset cafe overlooking the Arabian Sea." },
-        { id:"51", name:"Eben's Heaven",              placeKey:"munnar",     latOffset:0.002,  lngOffset:0.002,  dish:"Hot Chocolate & Sandwiches",                           type:"Heritage Spot",  emotionalTag:"comfort", history:"Cozy mountain cafe perfect for cold evenings." },
-        { id:"52", name:"Tea Valley Restaurant",      placeKey:"munnar",     latOffset:-0.002, lngOffset:-0.002, dish:"Kerala Meals & Tea",                                   type:"Traditional",    emotionalTag:"comfort", history:"Hill-view restaurant surrounded by tea plantations." },
-        { id:"53", name:"Currymeen",                  placeKey:"kumarakom",  latOffset:0.003,  lngOffset:0.002,  dish:"Karimeen Pollichathu",                                 type:"Iconic Legend",  emotionalTag:"heritage",history:"Luxury Kumarakom seafood dining inspired by backwater traditions." },
-        { id:"54", name:"Tharavadu Restaurant",       placeKey:"kumarakom",  latOffset:-0.002, lngOffset:-0.003, dish:"Duck Curry & Appam",                                   type:"Traditional",    emotionalTag:"heritage",history:"Traditional Kerala tharavadu-style food experience." },
-        { id:"99", name:"Sainu Thattukada",           placeKey:"kozhikode",  latOffset:0.003,  lngOffset:0.004,  dish:"Beef Fry & Kallummakkaya",                             type:"Street Food",    emotionalTag:"spicy",   history:"Night-time Kozhikode roadside favorite for spicy Malabar dishes." },
-        { id:"100",name:"Kuttan's Thattukada",        placeKey:"kozhikode",  latOffset:-0.002, lngOffset:0.002,  dish:"Egg Porotta & Chicken Roast",                          type:"Street Food",    emotionalTag:"spicy",   history:"Crowded evening food corner serving hot iron-pan porottas." },
-        { id:"101",name:"BDF Thattukada",             placeKey:"kozhikode",  latOffset:0.004,  lngOffset:-0.003, dish:"Beef Dry Fry & Tapioca",                               type:"Street Food",    emotionalTag:"spicy",   history:"Famous among college students for budget-friendly spicy food." },
-        { id:"102",name:"Kozhikodan Chai Kada",       placeKey:"kozhikode",  latOffset:-0.003, lngOffset:-0.002, dish:"Sulaimani & Unnakkaya",                                type:"Heritage Spot",  emotionalTag:"comfort", history:"Traditional evening tea shop inspired by old Kozhikode culture." },
-        { id:"103",name:"Muthu Annan Thattukada",     placeKey:"kochi",      latOffset:0.002,  lngOffset:0.003,  dish:"Kappa Beef & Omelette",                                type:"Street Food",    emotionalTag:"spicy",   history:"Late-night roadside kada loved by IT professionals and travelers." },
-        { id:"104",name:"Kochi Midnight Kada",        placeKey:"kochi",      latOffset:-0.004, lngOffset:0.001,  dish:"Chicken Fry & Porotta",                                type:"Street Food",    emotionalTag:"spicy",   history:"Popular midnight food stop known for spicy fried chicken." },
-        { id:"105",name:"Fort Kochi Tea Point",       placeKey:"kochi",      latOffset:0.003,  lngOffset:-0.002, dish:"Cutlet & Chai",                                        type:"Heritage Spot",  emotionalTag:"comfort", history:"Vintage-style tea shop inspired by colonial Fort Kochi cafes." },
-        { id:"106",name:"TVM Street Grill",           placeKey:"trivandrum", latOffset:0.002,  lngOffset:0.004,  dish:"Chicken Charcoal & Kuboos",                            type:"Street Food",    emotionalTag:"spicy",   history:"Busy roadside grill station attracting huge night crowds." },
-        { id:"107",name:"Chaaya Corner TVM",          placeKey:"trivandrum", latOffset:-0.003, lngOffset:-0.002, dish:"Parippu Vada & Tea",                                   type:"Traditional",    emotionalTag:"comfort", history:"Simple nostalgic tea-time spot serving Kerala snacks." },
-        { id:"108",name:"Wayanad Night Riders Kada",  placeKey:"wayanad",    latOffset:0.003,  lngOffset:0.001,  dish:"Hot Pepper Chicken & Kappa",                           type:"Street Food",    emotionalTag:"spicy",   history:"Roadside hill-stop serving travelers through cold misty nights." },
-        { id:"109",name:"Forest Edge Chai Shop",      placeKey:"wayanad",    latOffset:-0.002, lngOffset:-0.003, dish:"Black Tea & Banana Fritters",                          type:"Traditional",    emotionalTag:"comfort", history:"Tiny tea shop near forest roads with relaxing plantation vibes." },
-        { id:"110",name:"Palakkad Junction Thattukada",placeKey:"palakkad",  latOffset:0.003,  lngOffset:0.002,  dish:"Egg Roast & Idiyappam",                                type:"Street Food",    emotionalTag:"comfort", history:"Popular railway-side food spot serving fresh night meals." },
-        { id:"111",name:"Naadan Chai Kada",           placeKey:"palakkad",   latOffset:-0.003, lngOffset:0.001,  dish:"Pazham Pori & Tea",                                    type:"Traditional",    emotionalTag:"comfort", history:"Old-school Kerala tea shop with peaceful village atmosphere." },
-        { id:"112",name:"Munnar Campfire Cafe",       placeKey:"munnar",     latOffset:0.002,  lngOffset:-0.002, dish:"Hot Chocolate & Maggi",                                type:"Street Food",    emotionalTag:"comfort", history:"Cold-weather hill cafe popular among backpackers." },
-        { id:"113",name:"Tea Estate Thattukada",      placeKey:"munnar",     latOffset:-0.003, lngOffset:0.003,  dish:"Elaichi Tea & Vada",                                   type:"Traditional",    emotionalTag:"comfort", history:"Roadside tea stop surrounded by tea plantations." },
-        { id:"114",name:"Backwater Thattukada",       placeKey:"alappuzha",  latOffset:0.003,  lngOffset:-0.001, dish:"Karimeen Fry & Tapioca",                               type:"Street Food",    emotionalTag:"heritage",history:"Backwater-side food shack famous for fresh seafood." },
-        { id:"115",name:"Boat Jetty Chai Kada",       placeKey:"alappuzha",  latOffset:-0.002, lngOffset:0.002,  dish:"Tea & Egg Puffs",                                      type:"Traditional",    emotionalTag:"comfort", history:"Relaxed evening tea point near houseboat docking areas." },
-        { id:"116",name:"Varkala Cliff Thattukada",   placeKey:"varkala",    latOffset:0.003,  lngOffset:0.003,  dish:"Seafood Fry & Lime Soda",                              type:"Street Food",    emotionalTag:"comfort", history:"Beachside roadside stall famous for sunset seafood snacks." },
-        { id:"117",name:"Sunset Chai Point",          placeKey:"varkala",    latOffset:-0.002, lngOffset:-0.003, dish:"Samosa & Ginger Tea",                                  type:"Traditional",    emotionalTag:"comfort", history:"Tiny cliffside tea point overlooking the Arabian Sea." },
-        { id:"118",name:"Kumarakom Toddy Corner",     placeKey:"kumarakom",  latOffset:0.002,  lngOffset:0.004,  dish:"Duck Roast & Kappa",                                   type:"Heritage Spot",  emotionalTag:"heritage",history:"Traditional toddy-style food experience near the backwaters." },
-        { id:"119",name:"Lake View Thattukada",       placeKey:"kumarakom",  latOffset:-0.003, lngOffset:0.001,  dish:"Fish Fry & Tea",                                       type:"Street Food",    emotionalTag:"comfort", history:"Small local food stop with beautiful lakefront atmosphere." }
-    ];
-
-    /* ─── STATE ─────────────────────────────────── */
-    let restaurantDatabase = [];
-    let mapInstance = null;
-    let activeMarkers = {};
-    let activeCraveFilter = 'all';
-    let trailPolyline = null;
-    let isTrailActive = false;
-
-    /* ─── HELPERS ────────────────────────────────── */
-    function getCategoryColor(type) {
-        const colors = {
-            'Iconic Legend': '#7D1128',
-            'Street Food':   '#C9963A',
-            'Traditional':   '#166534',
-            'Heritage Spot': '#C2410C',
-            'Local Explorer':'#0369A1'
-        };
-        return colors[type] || '#1C1008';
-    }
-
-    function getCardTagClass(type) {
-        const map = {
-            'Street Food': 'street',
-            'Traditional': 'traditional',
-            'Heritage Spot': 'heritage',
-            'Local Explorer': 'community'
-        };
-        return map[type] || '';
-    }
-
-    /* ─── INIT ───────────────────────────────────── */
-    window.onload = function() {
-    loadDatabase();
-    initMap();
-    loadUserProfile();
+/* data.js */
+const destinations = {
+    kozhikode: { lat: 11.2588, lng: 75.7804, name: "Kozhikode" },
+    kochi:     { lat: 9.9312,  lng: 76.2673, name: "Kochi / Ernakulam" },
+    trivandrum:{ lat: 8.5241,  lng: 76.9366, name: "Thiruvananthapuram" },
+    wayanad:   { lat: 11.5950, lng: 76.2620, name: "Wayanad" },
+    palakkad:  { lat: 10.7867, lng: 76.6548, name: "Palakkad" },
+    munnar:    { lat: 10.0889, lng: 77.0595, name: "Munnar" },
+    alappuzha: { lat: 9.4981,  lng: 76.3388, name: "Alappuzha" },
+    varkala:   { lat: 8.7374,  lng: 76.7063, name: "Varkala" },
+    kumarakom: { lat: 9.5925,  lng: 76.4224, name: "Kumarakom" }
 };
 
-    function loadDatabase() {
-        const saved = localStorage.getItem('keralamX_v2');
-        restaurantDatabase = saved ? JSON.parse(saved) : [...defaultRestaurants];
-        if (!saved) localStorage.setItem('keralamX_v2', JSON.stringify(restaurantDatabase));
-    }
+const defaultRestaurants = [
+    { id:"1",  name:"Paragon Restaurant",        placeKey:"kozhikode",  latOffset:0.002,  lngOffset:-0.003, dish:"Authentic Malabar Mutton Biryani & Sulaimani",         type:"Iconic Legend",  emotionalTag:"heritage", history:"Operating since 1939, mastering a closely guarded heirloom blend of Malabar spices." },
+    { id:"2",  name:"Alikka's Thattu Kada",      placeKey:"kozhikode",  latOffset:-0.004, lngOffset:0.005,  dish:"Layered Thattu Porotta with Double Beef Fry",          type:"Street Food",    emotionalTag:"spicy",   history:"The ultimate late-night benchmark for street-side iron skillet beef tossing." },
+    { id:"3",  name:"Mullan Pandal Shappu",       placeKey:"kochi",      latOffset:0.006,  lngOffset:-0.001, dish:"Fiery Toddy Shop Beef Roast with Steamed Kappa",       type:"Traditional",    emotionalTag:"spicy",   history:"Deep-rooted culinary institution cooked entirely over wild mangrove logs." },
+    { id:"4",  name:"Bhai Kada Kaloor",           placeKey:"kochi",      latOffset:-0.003, lngOffset:0.004,  dish:"Late-night Mutton Soup & Crispy Bilal Fry",            type:"Street Food",    emotionalTag:"spicy",   history:"Fueling nocturnal travelers and midnight food runs for decades." },
+    { id:"5",  name:"Mubarak Restaurant",         placeKey:"trivandrum", latOffset:0.001,  lngOffset:0.003,  dish:"Trivandrum Style Deep Fried Chicken Fry & Porotta",    type:"Iconic Legend",  emotionalTag:"spicy",   history:"Famous for its specialized high-temp coconut oil chicken drop method." },
+    { id:"6",  name:"Good Morning Hotel",         placeKey:"trivandrum", latOffset:-0.005, lngOffset:-0.002, dish:"Crispy Thattu Dosa, Mulaku Chutney & Rasavada",        type:"Street Food",    emotionalTag:"comfort", history:"Opening at 4:00 AM daily to serve morning commuters traditional breakfast arrays." },
+    { id:"7",  name:"Wilton Restaurant",          placeKey:"wayanad",    latOffset:0.003,  lngOffset:-0.004, dish:"Aromatic Forest Bamboo Biryani & Honey Chicken",       type:"Iconic Legend",  emotionalTag:"heritage",history:"Pioneered slow dum steaming inside fresh highland green bamboo shafts." },
+    { id:"8",  name:"Ramassery Idli Shop",        placeKey:"palakkad",   latOffset:0.001,  lngOffset:0.002,  dish:"Earthen Pot Baked Flat Ramassery Idli & Podi",         type:"Heritage Spot",  emotionalTag:"heritage",history:"Preserving an ultra-rare 200-year-old weaving community recipe baked on muslin cloths." },
+    { id:"9",  name:"Rapsy Restaurant",           placeKey:"munnar",     latOffset:-0.002, lngOffset:0.003,  dish:"High Range Beef Fry & Fluffy Spanish Omelette",        type:"Traditional",    emotionalTag:"comfort", history:"The vintage traveler sanctuary for hikers carbing up post tea-estate treks." },
+    { id:"10", name:"Hillview Tea Corner",        placeKey:"munnar",     latOffset:0.004,  lngOffset:-0.001, dish:"Fresh Cardamom Elaichi Tea & Hot Pazham Fritters",     type:"Traditional",    emotionalTag:"comfort", history:"Perched right over valleys; matches hot plantain fritters to mountain fog." },
+    { id:"11", name:"Raja Hotel Ambalapuzha",     placeKey:"alappuzha",  latOffset:0.002,  lngOffset:-0.002, dish:"Rich Ambalapuzha Palpayasam & Tawa Fried Karimeen",    type:"Traditional",    emotionalTag:"heritage",history:"Acclaimed for sourcing backwater pearl spots directly from traditional lake nets." },
+    { id:"12", name:"Darjeeling Cafe Cliff Edge", placeKey:"varkala",    latOffset:-0.003, lngOffset:0.001,  dish:"Freshly Caught Grilled Calamari & Claypot Prawns",     type:"Heritage Spot",  emotionalTag:"comfort", history:"Overlooking the red Arabian Sea cliffs, blending local marine catch with global styles." },
+    { id:"13", name:"Pearl Spot Lagoon Diner",    placeKey:"kumarakom",  latOffset:0.001,  lngOffset:0.003,  dish:"Vembanad Lake Karimeen Pollichathu",                   type:"Traditional",    emotionalTag:"heritage",history:"Wrapped carefully in single-source banana leaves and slow-seared on clay pans." },
+    { id:"35", name:"Hotel Deluxe",               placeKey:"kozhikode",  latOffset:0.002,  lngOffset:0.003,  dish:"Malabar Chicken Biryani",                              type:"Iconic Legend",  emotionalTag:"heritage",history:"One of Kozhikode's oldest iconic biryani destinations." },
+    { id:"36", name:"KBC Restaurant",             placeKey:"kozhikode",  latOffset:-0.002, lngOffset:0.001,  dish:"Alfaham & Shawarma",                                   type:"Street Food",    emotionalTag:"spicy",   history:"Youth favorite spot famous for grilled Arabian dishes." },
+    { id:"37", name:"M Grill",                    placeKey:"kozhikode",  latOffset:0.004,  lngOffset:-0.003, dish:"Seafood Platters & Biryani",                           type:"Iconic Legend",  emotionalTag:"heritage",history:"Luxury Malabar dining with premium seafood specialties." },
+    { id:"38", name:"Galaxy Restaurant",          placeKey:"kochi",      latOffset:0.002,  lngOffset:0.004,  dish:"Chicken Charcoal & Kuzhimandi",                        type:"Street Food",    emotionalTag:"spicy",   history:"Popular Kochi food destination for Arabian grills." },
+    { id:"39", name:"Brindhavan Vegetarian",      placeKey:"kochi",      latOffset:-0.003, lngOffset:-0.002, dish:"Meals & Ghee Roast",                                   type:"Traditional",    emotionalTag:"comfort", history:"Classic vegetarian restaurant loved by families." },
+    { id:"40", name:"Grand Pavilion",             placeKey:"kochi",      latOffset:0.001,  lngOffset:-0.004, dish:"Kerala Sadya & Fish Curry",                            type:"Heritage Spot",  emotionalTag:"heritage",history:"Elegant Kerala cuisine experience in central Kochi." },
+    { id:"41", name:"Kethel's Chicken",           placeKey:"trivandrum", latOffset:0.003,  lngOffset:-0.001, dish:"Fried Chicken & Burger",                               type:"Street Food",    emotionalTag:"spicy",   history:"One of TVM's iconic fast-food chicken spots." },
+    { id:"42", name:"Azad Restaurant",            placeKey:"trivandrum", latOffset:-0.003, lngOffset:0.002,  dish:"Mutton Curry & Porotta",                               type:"Traditional",    emotionalTag:"comfort", history:"Historic restaurant serving classic Kerala Muslim cuisine." },
+    { id:"43", name:"Hotel New Taj",              placeKey:"wayanad",    latOffset:0.002,  lngOffset:0.002,  dish:"Kuzhimandi & BBQ",                                     type:"Street Food",    emotionalTag:"spicy",   history:"Famous stop for travelers exploring Wayanad." },
+    { id:"44", name:"Green Gates Restaurant",     placeKey:"wayanad",    latOffset:-0.002, lngOffset:-0.003, dish:"Kerala Meals & Fish Fry",                              type:"Traditional",    emotionalTag:"comfort", history:"Traditional Wayanad dining surrounded by greenery." },
+    { id:"45", name:"Noorjahan Hotel",            placeKey:"palakkad",   latOffset:0.001,  lngOffset:0.004,  dish:"Chicken Curry & Porotta",                              type:"Traditional",    emotionalTag:"comfort", history:"Old local restaurant famous for simple naadan flavors." },
+    { id:"46", name:"Sri Krishna Bhavan",         placeKey:"palakkad",   latOffset:-0.003, lngOffset:0.001,  dish:"Idli Sambar & Pongal",                                 type:"Heritage Spot",  emotionalTag:"comfort", history:"Traditional vegetarian breakfast landmark." },
+    { id:"47", name:"SN Restaurant",             placeKey:"alappuzha",  latOffset:0.003,  lngOffset:-0.002, dish:"Karimeen Fry & Crab Roast",                            type:"Iconic Legend",  emotionalTag:"heritage",history:"Seafood destination loved by tourists and locals." },
+    { id:"48", name:"Cassia Restaurant",          placeKey:"alappuzha",  latOffset:-0.002, lngOffset:0.002,  dish:"Duck Roast & Appam",                                   type:"Traditional",    emotionalTag:"heritage",history:"Authentic Syrian Christian Kerala cuisine spot." },
+    { id:"49", name:"Abba Restaurant",            placeKey:"varkala",    latOffset:0.002,  lngOffset:-0.001, dish:"Seafood Grill & Smoothies",                            type:"Heritage Spot",  emotionalTag:"comfort", history:"Relaxed cliffside cafe with beach vibes." },
+    { id:"50", name:"Cafe Del Mar",               placeKey:"varkala",    latOffset:-0.003, lngOffset:0.003,  dish:"Prawns Fry & Pasta",                                   type:"Street Food",    emotionalTag:"comfort", history:"Popular sunset cafe overlooking the Arabian Sea." },
+    { id:"51", name:"Eben's Heaven",              placeKey:"munnar",     latOffset:0.002,  lngOffset:0.002,  dish:"Hot Chocolate & Sandwiches",                           type:"Heritage Spot",  emotionalTag:"comfort", history:"Cozy mountain cafe perfect for cold evenings." },
+    { id:"52", name:"Tea Valley Restaurant",      placeKey:"munnar",     latOffset:-0.002, lngOffset:-0.002, dish:"Kerala Meals & Tea",                                   type:"Traditional",    emotionalTag:"comfort", history:"Hill-view restaurant surrounded by tea plantations." },
+    { id:"53", name:"Currymeen",                  placeKey:"kumarakom",  latOffset:0.003,  lngOffset:0.002,  dish:"Karimeen Pollichathu",                                 type:"Iconic Legend",  emotionalTag:"heritage",history:"Luxury Kumarakom seafood dining inspired by backwater traditions." },
+    { id:"54", name:"Tharavadu Restaurant",       placeKey:"kumarakom",  latOffset:-0.002, lngOffset:-0.003, dish:"Duck Curry & Appam",                                   type:"Traditional",    emotionalTag:"heritage",history:"Traditional Kerala tharavadu-style food experience." },
+    { id:"99", name:"Sainu Thattukada",           placeKey:"kozhikode",  latOffset:0.003,  lngOffset:0.004,  dish:"Beef Fry & Kallummakkaya",                             type:"Street Food",    emotionalTag:"spicy",   history:"Night-time Kozhikode roadside favorite for spicy Malabar dishes." },
+    { id:"100",name:"Kuttan's Thattukada",        placeKey:"kozhikode",  latOffset:-0.002, lngOffset:0.002,  dish:"Egg Porotta & Chicken Roast",                          type:"Street Food",    emotionalTag:"spicy",   history:"Crowded evening food corner serving hot iron-pan porottas." },
+    { id:"101",name:"BDF Thattukada",             placeKey:"kozhikode",  latOffset:0.004,  lngOffset:-0.003, dish:"Beef Dry Fry & Tapioca",                               type:"Street Food",    emotionalTag:"spicy",   history:"Famous among college students for budget-friendly spicy food." },
+    { id:"102",name:"Kozhikodan Chai Kada",       placeKey:"kozhikode",  latOffset:-0.003, lngOffset:-0.002, dish:"Sulaimani & Unnakkaya",                                type:"Heritage Spot",  emotionalTag:"comfort", history:"Traditional evening tea shop inspired by old Kozhikode culture." },
+    { id:"103",name:"Muthu Annan Thattukada",     placeKey:"kochi",      latOffset:0.002,  lngOffset:0.003,  dish:"Kappa Beef & Omelette",                                type:"Street Food",    emotionalTag:"spicy",   history:"Late-night roadside kada loved by IT professionals and travelers." },
+    { id:"104",name:"Kochi Midnight Kada",        placeKey:"kochi",      latOffset:-0.004, lngOffset:0.001,  dish:"Chicken Fry & Porotta",                                type:"Street Food",    emotionalTag:"spicy",   history:"Popular midnight food stop known for spicy fried chicken." },
+    { id:"105",name:"Fort Kochi Tea Point",       placeKey:"kochi",      latOffset:0.003,  lngOffset:-0.002, dish:"Cutlet & Chai",                                        type:"Heritage Spot",  emotionalTag:"comfort", history:"Vintage-style tea shop inspired by colonial Fort Kochi cafes." },
+    { id:"106",name:"TVM Street Grill",           placeKey:"trivandrum", latOffset:0.002,  lngOffset:0.004,  dish:"Chicken Charcoal & Kuboos",                            type:"Street Food",    emotionalTag:"spicy",   history:"Busy roadside grill station attracting huge night crowds." },
+    { id:"107",name:"Chaaya Corner TVM",          placeKey:"trivandrum", latOffset:-0.003, lngOffset:-0.002, dish:"Parippu Vada & Tea",                                   type:"Traditional",    emotionalTag:"comfort", history:"Simple nostalgic tea-time spot serving Kerala snacks." },
+    { id:"108",name:"Wayanad Night Riders Kada",  placeKey:"wayanad",    latOffset:0.003,  lngOffset:0.001,  dish:"Hot Pepper Chicken & Kappa",                           type:"Street Food",    emotionalTag:"spicy",   history:"Roadside hill-stop serving travelers through cold misty nights." },
+    { id:"109",name:"Forest Edge Chai Shop",      placeKey:"wayanad",    latOffset:-0.002, lngOffset:-0.003, dish:"Black Tea & Banana Fritters",                          type:"Traditional",    emotionalTag:"comfort", history:"Tiny tea shop near forest roads with relaxing plantation vibes." },
+    { id:"110",name:"Palakkad Junction Thattukada",placeKey:"palakkad",  latOffset:0.003,  lngOffset:0.002,  dish:"Egg Roast & Idiyappam",                                type:"Street Food",    emotionalTag:"comfort", history:"Popular railway-side food spot serving fresh night meals." },
+    { id:"111",name:"Naadan Chai Kada",           placeKey:"palakkad",   latOffset:-0.003, lngOffset:0.001,  dish:"Pazham Pori & Tea",                                    type:"Traditional",    emotionalTag:"comfort", history:"Old-school Kerala tea shop with peaceful village atmosphere." },
+    { id:"112",name:"Munnar Campfire Cafe",       placeKey:"munnar",     latOffset:0.002,  lngOffset:-0.002, dish:"Hot Chocolate & Maggi",                                type:"Street Food",    emotionalTag:"comfort", history:"Cold-weather hill cafe popular among backpackers." },
+    { id:"113",name:"Tea Estate Thattukada",      placeKey:"munnar",     latOffset:-0.003, lngOffset:0.003,  dish:"Elaichi Tea & Vada",                                   type:"Traditional",    emotionalTag:"comfort", history:"Roadside tea stop surrounded by tea plantations." },
+    { id:"114",name:"Backwater Thattukada",       placeKey:"alappuzha",  latOffset:0.003,  lngOffset:-0.001, dish:"Karimeen Fry & Tapioca",                               type:"Street Food",    emotionalTag:"heritage",history:"Backwater-side food shack famous for fresh seafood." },
+    { id:"115",name:"Boat Jetty Chai Kada",       placeKey:"alappuzha",  latOffset:-0.002, lngOffset:0.002,  dish:"Tea & Egg Puffs",                                      type:"Traditional",    emotionalTag:"comfort", history:"Relaxed evening tea point near houseboat docking areas." },
+    { id:"116",name:"Varkala Cliff Thattukada",   placeKey:"varkala",    latOffset:0.003,  lngOffset:0.003,  dish:"Seafood Fry & Lime Soda",                              type:"Street Food",    emotionalTag:"comfort", history:"Beachside roadside stall famous for sunset seafood snacks." },
+    { id:"117",name:"Sunset Chai Point",          placeKey:"varkala",    latOffset:-0.002, lngOffset:-0.003, dish:"Samosa & Ginger Tea",                                  type:"Traditional",    emotionalTag:"comfort", history:"Tiny cliffside tea point overlooking the Arabian Sea." },
+    { id:"118",name:"Kumarakom Toddy Corner",     placeKey:"kumarakom",  latOffset:0.002,  lngOffset:0.004,  dish:"Duck Roast & Kappa",                                   type:"Heritage Spot",  emotionalTag:"heritage",history:"Traditional toddy-style food experience near the backwaters." },
+    { id:"119",name:"Lake View Thattukada",       placeKey:"kumarakom",  latOffset:-0.003, lngOffset:0.001,  dish:"Fish Fry & Tea",                                       type:"Street Food",    emotionalTag:"comfort", history:"Small local food stop with beautiful lakefront atmosphere." }
+];
 
-    function initMap() {
-        const place = destinations['kozhikode'];
-        mapInstance = L.map('map', { zoomControl: true }).setView([place.lat, place.lng], 13);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(mapInstance);
-        updateUI('kozhikode');
-    }
+/* state.js */
+const state = {
+  restaurantDatabase: [],
+  mapInstance: null,
+  activeMarkers: {},
+  activeCraveFilter: 'all',
+  trailPolyline: null,
+  isTrailActive: false
+};
 
-    /* ─── SIGNUP ─────────────────────────────────── */
-    function handleSignup(e) {
-        e.preventDefault();
-        const name = document.getElementById('signup-name').value.trim();
-        const email = document.getElementById('signup-email').value.trim();
-        if (!name || !email) return;
+/* utils.js */
+function getCategoryColor(type) {
+  const colors = {
+    'Iconic Legend': '#7D1128',
+    'Street Food': '#C9963A',
+    'Traditional': '#166534',
+    'Heritage Spot': '#C2410C',
+    'Local Explorer': '#0369A1'
+  };
 
-        const parts = name.split(' ').filter(p => p.length > 0);
-        const initials = (parts.length > 1 ? parts[0][0] + parts[parts.length-1][0] : parts[0].slice(0,2)).toUpperCase();
+  return colors[type] || '#1C1008';
+}
 
-        document.getElementById('avatar-initials').textContent = initials;
-        document.getElementById('avatar-name').textContent = name.split(' ')[0];
-        document.getElementById('drop-name').textContent = name;
-        document.getElementById('drop-email').textContent = email;
-        document.getElementById('nav-avatar').classList.add('visible');
+function getCardTagClass(type) {
+  const map = {
+    'Street Food': 'street',
+    'Traditional': 'traditional',
+    'Heritage Spot': 'heritage',
+    'Local Explorer': 'community'
+  };
 
-        saveUserProfile(name, email);
+  return map[type] || '';
+}
 
-        // Hide the nav CTA link if present
-        document.querySelectorAll('.nav-cta').forEach(el => el.style.display = 'none');
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[char]));
+}
 
-        document.getElementById('explore').scrollIntoView({ behavior: 'smooth' });
-    }
+/* api.js */
+async function fetchDatabaseSpots() {
+  const response = await fetch('/api/spots');
 
-    function toggleAvatarDropdown() {
-        document.getElementById('avatar-dropdown').classList.toggle('open');
-    }
+  if (!response.ok) {
+    throw new Error('Food spot database is not available yet.');
+  }
 
-    document.addEventListener('click', function(e) {
-        const avatar = document.getElementById('nav-avatar');
-        const dd = document.getElementById('avatar-dropdown');
-        if (avatar && !avatar.contains(e.target)) dd.classList.remove('open');
+  const data = await response.json();
+  return data.spots || [];
+}
+
+async function createDatabaseSpot(payload) {
+  const response = await fetch('/api/spots', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || 'Unable to save this food spot.');
+  }
+
+  return data.spot;
+}
+
+function loadLocalCustomSpots() {
+  const saved = localStorage.getItem('keralamX_v2_custom');
+  return saved ? JSON.parse(saved) : [];
+}
+
+function saveLocalCustomSpot(spot) {
+  const localSpots = loadLocalCustomSpots();
+  localSpots.push(spot);
+  localStorage.setItem('keralamX_v2_custom', JSON.stringify(localSpots));
+}
+
+/* map.js */
+
+function initMap() {
+  const place = destinations.kozhikode;
+  state.mapInstance = L.map('map', { zoomControl: true }).setView([place.lat, place.lng], 13);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(state.mapInstance);
+
+  updateUI('kozhikode');
+}
+
+function handlePlaceSelection() {
+  const key = document.getElementById('place-selector').value;
+  document.getElementById('search-bar').value = '';
+  document.getElementById('category-filter').value = 'all';
+  setCrave('all');
+  removeTrail();
+  state.mapInstance.flyTo([destinations[key].lat, destinations[key].lng], 13, {
+    animate: true,
+    duration: 1.2
+  });
+  updateUI(key);
+}
+
+function filterFoodItems() {
+  removeTrail();
+  updateUI(document.getElementById('place-selector').value);
+}
+
+function setCrave(type) {
+  state.activeCraveFilter = type;
+  document.querySelectorAll('.crave-pill').forEach(button => button.classList.remove('active'));
+  document.getElementById('crave-' + type).classList.add('active');
+  removeTrail();
+  updateUI(document.getElementById('place-selector').value);
+}
+
+function getFiltered(placeKey) {
+  const q = document.getElementById('search-bar').value.toLowerCase();
+  const cat = document.getElementById('category-filter').value;
+
+  return state.restaurantDatabase.filter(resto => {
+    if (resto.placeKey !== placeKey) return false;
+    if (q && !resto.name.toLowerCase().includes(q) && !resto.dish.toLowerCase().includes(q)) return false;
+    if (cat !== 'all' && resto.type !== cat) return false;
+    if (state.activeCraveFilter !== 'all' && resto.emotionalTag !== state.activeCraveFilter) return false;
+    return true;
+  });
+}
+
+function updateUI(placeKey) {
+  const container = document.getElementById('food-container');
+  const heading = document.getElementById('results-heading');
+  const countEl = document.getElementById('results-count');
+
+  container.innerHTML = '';
+  Object.values(state.activeMarkers).forEach(marker => state.mapInstance.removeLayer(marker));
+  state.activeMarkers = {};
+
+  const list = getFiltered(placeKey);
+  heading.textContent = '📍 Gems in ' + destinations[placeKey].name;
+  countEl.textContent = list.length + ' spots found';
+
+  if (list.length === 0) {
+    container.innerHTML = '<div class="no-results">No spots match your filters. Try adjusting the Vibe or Craving.</div>';
+    if (state.isTrailActive) removeTrail();
+    return;
+  }
+
+  list.forEach(resto => {
+    const base = destinations[resto.placeKey];
+    const lat = base.lat + (resto.latOffset || 0);
+    const lng = base.lng + (resto.lngOffset || 0);
+    const color = getCategoryColor(resto.type);
+    const safeName = escapeHtml(resto.name);
+    const safeDish = escapeHtml(resto.dish);
+    const safeHistory = escapeHtml(resto.history);
+    const safeType = escapeHtml(resto.type);
+
+    const icon = L.divIcon({
+      html: `<div class="custom-marker" style="background:${color};width:30px;height:30px;">🍲</div>`,
+      className: '',
+      iconSize: [30, 30],
+      iconAnchor: [15, 15]
     });
 
-    /* ─── FILTERING ──────────────────────────────── */
-    function handlePlaceSelection() {
-        const key = document.getElementById('place-selector').value;
-        document.getElementById('search-bar').value = '';
-        document.getElementById('category-filter').value = 'all';
-        setCrave('all');
-        removeTrail();
-        mapInstance.flyTo([destinations[key].lat, destinations[key].lng], 13, { animate: true, duration: 1.2 });
-        updateUI(key);
-    }
+    const marker = L.marker([lat, lng], { icon }).addTo(state.mapInstance);
+    marker.bindPopup(`
+      <div style="font-family:'DM Sans',sans-serif;padding:4px;min-width:180px;">
+        <strong style="color:#7D1128;font-size:14px;">${safeName}</strong><br>
+        <span style="font-size:12px;font-weight:600;color:#444;">🔥 ${safeDish}</span><br>
+        <p style="font-size:11px;margin:6px 0 0;color:#888;font-style:italic;">${safeHistory}</p>
+      </div>
+    `);
+    state.activeMarkers[resto.id] = marker;
 
-    function filterFoodItems() {
-        removeTrail();
-        updateUI(document.getElementById('place-selector').value);
-    }
+    const card = document.createElement('div');
+    card.className = 'food-card';
+    card.onclick = () => {
+      state.mapInstance.panTo([lat, lng]);
+      marker.openPopup();
+    };
+    card.innerHTML = `
+      <div class="card-top">
+        <span class="card-tag ${getCardTagClass(resto.type)}">${safeType}</span>
+      </div>
+      <div class="card-name">${safeName}</div>
+      <p class="card-history">"${safeHistory}"</p>
+      <div class="card-dish">
+        <div class="card-dish-label">Signature Dish</div>
+        <div class="card-dish-name">${safeDish}</div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
 
-    function setCrave(type) {
-        activeCraveFilter = type;
-        document.querySelectorAll('.crave-pill').forEach(b => b.classList.remove('active'));
-        document.getElementById('crave-' + type).classList.add('active');
-        removeTrail();
-        updateUI(document.getElementById('place-selector').value);
-    }
+  if (state.isTrailActive) {
+    state.isTrailActive = false;
+    toggleFoodTrail();
+  }
+}
 
-    function getFiltered(placeKey) {
-        const q = document.getElementById('search-bar').value.toLowerCase();
-        const cat = document.getElementById('category-filter').value;
-        return restaurantDatabase.filter(r => {
-            if (r.placeKey !== placeKey) return false;
-            if (q && !r.name.toLowerCase().includes(q) && !r.dish.toLowerCase().includes(q)) return false;
-            if (cat !== 'all' && r.type !== cat) return false;
-            if (activeCraveFilter !== 'all' && r.emotionalTag !== activeCraveFilter) return false;
-            return true;
-        });
-    }
+function removeTrail() {
+  if (state.trailPolyline) {
+    state.mapInstance.removeLayer(state.trailPolyline);
+    state.trailPolyline = null;
+  }
 
-    /* ─── MAP & CARDS UPDATE ─────────────────────── */
-    function updateUI(placeKey) {
-        const container = document.getElementById('food-container');
-        const heading   = document.getElementById('results-heading');
-        const countEl   = document.getElementById('results-count');
+  state.isTrailActive = false;
+  const btn = document.getElementById('trail-btn');
+  btn.classList.remove('active');
+  btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7C2 7 4 3 7 3C10 3 12 7 12 7C12 7 10 11 7 11C4 11 2 7 2 7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/></svg> Show Food Trail`;
+}
 
-        container.innerHTML = '';
-        Object.values(activeMarkers).forEach(m => mapInstance.removeLayer(m));
-        activeMarkers = {};
+function toggleFoodTrail() {
+  if (state.isTrailActive) {
+    removeTrail();
+    return;
+  }
 
-        const list = getFiltered(placeKey);
-        heading.textContent = '📍 Gems in ' + destinations[placeKey].name;
-        countEl.textContent = list.length + ' spots found';
+  const key = document.getElementById('place-selector').value;
+  const list = getFiltered(key);
+  if (list.length < 2) {
+    alert('Need at least 2 spots to draw a trail!');
+    return;
+  }
 
-        if (list.length === 0) {
-            container.innerHTML = '<div class="no-results">No spots match your filters. Try adjusting the Vibe or Craving.</div>';
-            if (isTrailActive) removeTrail();
-            return;
-        }
+  const pts = list.map(resto => {
+    const base = destinations[resto.placeKey];
+    return [base.lat + (resto.latOffset || 0), base.lng + (resto.lngOffset || 0)];
+  });
 
-        list.forEach(resto => {
-            const base = destinations[resto.placeKey];
-            const lat  = base.lat + (resto.latOffset || 0);
-            const lng  = base.lng + (resto.lngOffset || 0);
-            const color = getCategoryColor(resto.type);
+  state.trailPolyline = L.polyline(pts, {
+    color: '#7D1128',
+    weight: 4,
+    opacity: 0.7,
+    dashArray: '8,8'
+  }).addTo(state.mapInstance);
+  state.mapInstance.fitBounds(state.trailPolyline.getBounds(), { padding: [40, 40] });
+  state.isTrailActive = true;
 
-            const icon = L.divIcon({
-                html: `<div class="custom-marker" style="background:${color};width:30px;height:30px;">🍲</div>`,
-                className: '',
-                iconSize: [30, 30],
-                iconAnchor: [15, 15]
-            });
+  const btn = document.getElementById('trail-btn');
+  btn.classList.add('active');
+  btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3L11 11M11 3L3 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> Clear Trail`;
+}
 
-            const marker = L.marker([lat, lng], { icon }).addTo(mapInstance);
-            marker.bindPopup(`
-                <div style="font-family:'DM Sans',sans-serif;padding:4px;min-width:180px;">
-                    <strong style="color:#7D1128;font-size:14px;">${resto.name}</strong><br>
-                    <span style="font-size:12px;font-weight:600;color:#444;">🔥 ${resto.dish}</span><br>
-                    <p style="font-size:11px;margin:6px 0 0;color:#888;font-style:italic;">${resto.history}</p>
-                </div>
-            `);
-            activeMarkers[resto.id] = marker;
+/* auth.js */
+function handleSignup(e) {
+  e.preventDefault();
+  const name = document.getElementById('signup-name').value.trim();
+  const email = document.getElementById('signup-email').value.trim();
+  if (!name || !email) return;
 
-            // Card
-            const card = document.createElement('div');
-            card.className = 'food-card';
-            card.onclick = () => { mapInstance.panTo([lat, lng]); marker.openPopup(); };
-            card.innerHTML = `
-                <div class="card-top">
-                    <span class="card-tag ${getCardTagClass(resto.type)}">${resto.type}</span>
-                </div>
-                <div class="card-name">${resto.name}</div>
-                <p class="card-history">"${resto.history}"</p>
-                <div class="card-dish">
-                    <div class="card-dish-label">Signature Dish</div>
-                    <div class="card-dish-name">${resto.dish}</div>
-                </div>
-            `;
-            container.appendChild(card);
-        });
+  renderUserProfile(name, email);
+  saveUserProfile(name, email);
+  document.getElementById('explore').scrollIntoView({ behavior: 'smooth' });
+}
 
-        if (isTrailActive) { isTrailActive = false; toggleFoodTrail(); }
-    }
+function toggleAvatarDropdown() {
+  document.getElementById('avatar-dropdown').classList.toggle('open');
+}
 
-    /* ─── TRAIL ──────────────────────────────────── */
-    function removeTrail() {
-        if (trailPolyline) { mapInstance.removeLayer(trailPolyline); trailPolyline = null; }
-        isTrailActive = false;
-        const btn = document.getElementById('trail-btn');
-        btn.classList.remove('active');
-        btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7C2 7 4 3 7 3C10 3 12 7 12 7C12 7 10 11 7 11C4 11 2 7 2 7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/></svg> Show Food Trail`;
-    }
-
-    function toggleFoodTrail() {
-        if (isTrailActive) { removeTrail(); return; }
-
-        const key = document.getElementById('place-selector').value;
-        const list = getFiltered(key);
-        if (list.length < 2) { alert('Need at least 2 spots to draw a trail!'); return; }
-
-        const pts = list.map(r => {
-            const b = destinations[r.placeKey];
-            return [b.lat + (r.latOffset||0), b.lng + (r.lngOffset||0)];
-        });
-
-        trailPolyline = L.polyline(pts, { color:'#7D1128', weight:4, opacity:0.7, dashArray:'8,8' }).addTo(mapInstance);
-        mapInstance.fitBounds(trailPolyline.getBounds(), { padding:[40,40] });
-        isTrailActive = true;
-
-        const btn = document.getElementById('trail-btn');
-        btn.classList.add('active');
-        btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3L11 11M11 3L3 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> Clear Trail`;
-    }
-
-    /* ─── ADD SPOT ───────────────────────────────── */
-    function addNewCustomSpot(e) {
-        e.preventDefault();
-        const gem = {
-            id: String(Date.now()),
-            name:      document.getElementById('new-resto').value,
-            dish:      document.getElementById('new-dish').value,
-            history:   document.getElementById('new-history').value,
-            type:      document.getElementById('new-type').value,
-            placeKey:  document.getElementById('target-place').value,
-            latOffset: (Math.random() - 0.5) * 0.012,
-            lngOffset: (Math.random() - 0.5) * 0.012,
-            emotionalTag: 'comfort'
-        };
-
-        restaurantDatabase.push(gem);
-        localStorage.setItem('keralamX_v2', JSON.stringify(restaurantDatabase));
-
-        alert(`✅ "${gem.name}" has been added to the map!`);
-        document.getElementById('add-spot-form').reset();
-
-        document.getElementById('place-selector').value = gem.placeKey;
-        handlePlaceSelection();
-        document.getElementById('explore').scrollIntoView({ behavior: 'smooth' });
-    }
-
-
-    /* ─── USER PROFILE SYSTEM ───────────────────────── */
+function initAvatarDropdownDismissal() {
+  document.addEventListener('click', event => {
+    const avatar = document.getElementById('nav-avatar');
+    const dropdown = document.getElementById('avatar-dropdown');
+    if (avatar && !avatar.contains(event.target)) dropdown.classList.remove('open');
+  });
+}
 
 function saveUserProfile(name, email) {
-    const userData = {
-        name: name,
-        email: email
-    };
-
-    localStorage.setItem('keralamX_user', JSON.stringify(userData));
+  localStorage.setItem('keralamX_user', JSON.stringify({ name, email }));
 }
 
 function loadUserProfile() {
-    const savedUser = localStorage.getItem('keralamX_user');
+  const savedUser = localStorage.getItem('keralamX_user');
+  if (!savedUser) return;
 
-    if (!savedUser) return;
-
-    const user = JSON.parse(savedUser);
-
-    const parts = user.name.split(' ').filter(p => p.length > 0);
-
-    const initials = (
-        parts.length > 1
-        ? parts[0][0] + parts[parts.length - 1][0]
-        : parts[0].slice(0, 2)
-    ).toUpperCase();
-
-    document.getElementById('avatar-initials').textContent = initials;
-    document.getElementById('avatar-name').textContent = user.name.split(' ')[0];
-    document.getElementById('drop-name').textContent = user.name;
-    document.getElementById('drop-email').textContent = user.email;
-
-    document.getElementById('nav-avatar').classList.add('visible');
-
-    document.querySelectorAll('.nav-cta').forEach(el => {
-        el.style.display = 'none';
-    });
+  const user = JSON.parse(savedUser);
+  renderUserProfile(user.name, user.email);
 }
-
-/* ─── MANAGE ACCOUNT ───────────────────────────── */
 
 function openManageAccount() {
-    const user = JSON.parse(localStorage.getItem('keralamX_user'));
+  const user = JSON.parse(localStorage.getItem('keralamX_user'));
 
-    if (!user) {
-        alert("No account found.");
-        return;
-    }
+  if (!user) {
+    alert('No account found.');
+    return;
+  }
 
-    const newName = prompt("Update your name:", user.name);
+  const newName = prompt('Update your name:', user.name);
+  if (newName === null || newName.trim() === '') return;
 
-    if (newName === null || newName.trim() === "") return;
-
-    user.name = newName.trim();
-
-    localStorage.setItem('keralamX_user', JSON.stringify(user));
-
-    loadUserProfile();
-
-    alert("✅ Profile updated successfully!");
+  user.name = newName.trim();
+  localStorage.setItem('keralamX_user', JSON.stringify(user));
+  loadUserProfile();
+  alert('✅ Profile updated successfully!');
 }
-
-/* ─── SAVED TRAILS ─────────────────────────────── */
 
 function openSavedTrails() {
+  const currentPlace = document.getElementById('place-selector').value;
+  const trails = JSON.parse(localStorage.getItem('saved_trails')) || [];
 
-    const currentPlace =
-        document.getElementById('place-selector').value;
+  trails.push({
+    place: currentPlace,
+    time: new Date().toLocaleString()
+  });
 
-    const trails =
-        JSON.parse(localStorage.getItem('saved_trails')) || [];
+  localStorage.setItem('saved_trails', JSON.stringify(trails));
 
-    trails.push({
-        place: currentPlace,
-        time: new Date().toLocaleString()
-    });
+  let message = '🗺 Your Saved Trails:\n\n';
+  trails.forEach((trail, index) => {
+    message += `${index + 1}. ${trail.place.toUpperCase()} — ${trail.time}\n`;
+  });
 
-    localStorage.setItem(
-        'saved_trails',
-        JSON.stringify(trails)
-    );
-
-    let message = "🗺 Your Saved Trails:\n\n";
-
-    trails.forEach((trail, index) => {
-        message +=
-            `${index + 1}. ${trail.place.toUpperCase()} — ${trail.time}\n`;
-    });
-
-    alert(message);
+  alert(message);
 }
-
-/* ─── SIGN OUT ─────────────────────────────────── */
 
 function signOutUser() {
+  const confirmLogout = confirm('Are you sure you want to sign out?');
+  if (!confirmLogout) return;
 
-    const confirmLogout =
-        confirm("Are you sure you want to sign out?");
-
-    if (!confirmLogout) return;
-
-    localStorage.removeItem('keralamX_user');
-
-    alert("👋 Signed out successfully!");
-
-    location.reload();
+  localStorage.removeItem('keralamX_user');
+  alert('👋 Signed out successfully!');
+  location.reload();
 }
 
+function renderUserProfile(name, email) {
+  const parts = name.split(' ').filter(part => part.length > 0);
+  const initials = (
+    parts.length > 1
+      ? parts[0][0] + parts[parts.length - 1][0]
+      : parts[0].slice(0, 2)
+  ).toUpperCase();
 
+  document.getElementById('avatar-initials').textContent = initials;
+  document.getElementById('avatar-name').textContent = name.split(' ')[0];
+  document.getElementById('drop-name').textContent = name;
+  document.getElementById('drop-email').textContent = email;
+  document.getElementById('nav-avatar').classList.add('visible');
 
+  document.querySelectorAll('.nav-cta').forEach(element => {
+    element.style.display = 'none';
+  });
+}
 
+/* spots.js */
+
+async function loadDatabase() {
+  state.restaurantDatabase = [...defaultRestaurants];
+
+  try {
+    const databaseSpots = await fetchDatabaseSpots();
+    state.restaurantDatabase = [...defaultRestaurants, ...databaseSpots];
+  } catch (error) {
+    state.restaurantDatabase = [...defaultRestaurants, ...loadLocalCustomSpots()];
+    console.warn(error.message);
+  }
+}
+
+async function addNewCustomSpot(e) {
+  e.preventDefault();
+  const form = document.getElementById('add-spot-form');
+  const button = form.querySelector('button[type="submit"]');
+  const status = document.getElementById('add-spot-status');
+  const payload = {
+    name: document.getElementById('new-resto').value,
+    dish: document.getElementById('new-dish').value,
+    history: document.getElementById('new-history').value,
+    type: document.getElementById('new-type').value,
+    placeKey: document.getElementById('target-place').value,
+    emotionalTag: 'comfort'
+  };
+
+  button.disabled = true;
+  button.textContent = 'Registering...';
+  status.className = 'form-status';
+  status.textContent = 'Saving this spot to the keralamX database.';
+
+  try {
+    const gem = await createDatabaseSpot(payload);
+    state.restaurantDatabase.push(gem);
+
+    status.className = 'form-status success';
+    status.textContent = `"${gem.name}" has been added to the shared map.`;
+    form.reset();
+
+    showSpotOnMap(gem);
+  } catch (error) {
+    const localGem = {
+      id: 'local-' + Date.now(),
+      ...payload,
+      latOffset: (Math.random() - 0.5) * 0.012,
+      lngOffset: (Math.random() - 0.5) * 0.012
+    };
+
+    saveLocalCustomSpot(localGem);
+    state.restaurantDatabase.push(localGem);
+
+    status.className = 'form-status error';
+    status.textContent = 'Database is not connected yet, so this spot was saved only in this browser for now.';
+    form.reset();
+
+    showSpotOnMap(localGem);
+    console.warn(error.message);
+  } finally {
+    button.disabled = false;
+    button.textContent = 'Register onto Map →';
+  }
+}
+
+function showSpotOnMap(spot) {
+  document.getElementById('place-selector').value = spot.placeKey;
+  handlePlaceSelection();
+  document.getElementById('explore').scrollIntoView({ behavior: 'smooth' });
+}
+
+/* app.js */
+
+window.addEventListener('load', async () => {
+  bindEvents();
+  await loadDatabase();
+  initMap();
+  loadUserProfile();
+  initAvatarDropdownDismissal();
+});
+
+function bindEvents() {
+  document.getElementById('signup-form').addEventListener('submit', handleSignup);
+  document.getElementById('add-spot-form').addEventListener('submit', addNewCustomSpot);
+  document.getElementById('nav-avatar').addEventListener('click', toggleAvatarDropdown);
+  document.getElementById('manage-account-btn').addEventListener('click', openManageAccount);
+  document.getElementById('saved-trails-btn').addEventListener('click', openSavedTrails);
+  document.getElementById('sign-out-btn').addEventListener('click', signOutUser);
+  document.getElementById('scroll-explore').addEventListener('click', () => {
+    document.getElementById('explore').scrollIntoView({ behavior: 'smooth' });
+  });
+  document.getElementById('place-selector').addEventListener('change', handlePlaceSelection);
+  document.getElementById('search-bar').addEventListener('input', filterFoodItems);
+  document.getElementById('category-filter').addEventListener('change', filterFoodItems);
+  document.getElementById('trail-btn').addEventListener('click', toggleFoodTrail);
+
+  document.querySelectorAll('[data-crave]').forEach(button => {
+    button.addEventListener('click', () => setCrave(button.dataset.crave));
+  });
+}
 </script>
 </body>
 </html>
